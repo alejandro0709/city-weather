@@ -15,13 +15,33 @@ class Service<Request: TargetType>: NetworkService{
         do {
             let request = try buildRequest(from: targetType)
             task = urlSession.dataTask(with: request, completionHandler: { data, response, error in
-                completion(data, response, error)
+                if let error = error {
+                    completion(.failure(error: error))
+                    return
+                }
+                
+                if let response = response as? HTTPURLResponse {
+                    completion(self.handlerNetworkResponse(response, data: data))
+                    return
+                }
+                
+                completion(.failure(error: NetworkErrorResponse.failed))
             })
         } catch {
-            completion(nil, nil, error)
+            completion(.failure(error: error))
         }
         
         task?.resume()
+    }
+    
+    private func handlerNetworkResponse(_ response: HTTPURLResponse, data: Data?) -> Result{
+        switch response.statusCode{
+        case 200...299: return .success(data: data)
+        case 401...500: return .failure(error: NetworkErrorResponse.authenticationError)
+        case 501...599: return .failure(error: NetworkErrorResponse.badRequest)
+        case 600: return .failure(error: NetworkErrorResponse.outdated)
+        default: return .failure(error: NetworkErrorResponse.failed)
+        }
     }
     
     private func buildRequest(from targetType: TargetType) throws -> URLRequest{

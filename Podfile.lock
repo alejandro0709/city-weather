@@ -1,0 +1,24 @@
+PODS:
+  - MBProgressHUD (1.2.0)
+  - RxSwift (6.5.0)
+  - Swinject (2.8.1)
+
+DEPENDENCIES:
+  - MBProgressHUD
+  - RxSwift
+  - Swinject
+
+SPEC REPOS:
+  trunk:
+    - MBProgressHUD
+    - RxSwift
+    - Swinject
+
+SPEC CHECKSUMS:
+  MBProgressHUD: 3ee5efcc380f6a79a7cc9b363dd669c5e1ae7406
+  RxSwift: 5710a9e6b17f3c3d6e40d6e559b9fa1e813b2ef8
+  Swinject: 97112918bd7e0785dc2df7036213f3c8cbba6586
+
+PODFILE CHECKSUM: 601d0172ee33658decae39c5872485ab793e229b
+
+COCOAPODS: 1.11.2

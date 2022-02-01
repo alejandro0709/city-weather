@@ -7,7 +7,13 @@
 
 import Foundation
 
-public typealias NetworkServiceCompletion = (_ data: Data?,_ response: URLResponse?,_ error: Error?)->()
+public typealias NetworkServiceCompletion = (_ result: Result)->()
+
+public enum Result{
+    case success(data: Data?)
+    case failure(error: Error)
+}
+
 protocol NetworkService: AnyObject{
     associatedtype Request: TargetType
     
