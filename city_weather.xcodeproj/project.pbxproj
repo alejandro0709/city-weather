@@ -10,7 +10,6 @@
 		4B20277C27A8AFA90036C8DC /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4B20277B27A8AFA90036C8DC /* AppDelegate.swift */; };
 		4B20277E27A8AFA90036C8DC /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4B20277D27A8AFA90036C8DC /* SceneDelegate.swift */; };
 		4B20278027A8AFA90036C8DC /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4B20277F27A8AFA90036C8DC /* ViewController.swift */; };
-		4B20278327A8AFA90036C8DC /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 4B20278127A8AFA90036C8DC /* Main.storyboard */; };
 		4B20278627A8AFA90036C8DC /* city_weather.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 4B20278427A8AFA90036C8DC /* city_weather.xcdatamodeld */; };
 		4B20278827A8AFAB0036C8DC /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 4B20278727A8AFAB0036C8DC /* Assets.xcassets */; };
 		4B20278B27A8AFAB0036C8DC /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 4B20278927A8AFAB0036C8DC /* LaunchScreen.storyboard */; };
@@ -35,7 +34,6 @@
 		4B20277B27A8AFA90036C8DC /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		4B20277D27A8AFA90036C8DC /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
 		4B20277F27A8AFA90036C8DC /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
-		4B20278227A8AFA90036C8DC /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		4B20278527A8AFA90036C8DC /* city_weather.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = city_weather.xcdatamodel; sourceTree = "<group>"; };
 		4B20278727A8AFAB0036C8DC /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		4B20278A27A8AFAB0036C8DC /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
@@ -97,7 +95,6 @@
 				4B20277B27A8AFA90036C8DC /* AppDelegate.swift */,
 				4B20277D27A8AFA90036C8DC /* SceneDelegate.swift */,
 				4B20277F27A8AFA90036C8DC /* ViewController.swift */,
-				4B20278127A8AFA90036C8DC /* Main.storyboard */,
 				4B20278727A8AFAB0036C8DC /* Assets.xcassets */,
 				4B20278927A8AFAB0036C8DC /* LaunchScreen.storyboard */,
 				4B20278C27A8AFAB0036C8DC /* Info.plist */,
@@ -243,7 +240,6 @@
 			files = (
 				4B20278B27A8AFAB0036C8DC /* LaunchScreen.storyboard in Resources */,
 				4B20278827A8AFAB0036C8DC /* Assets.xcassets in Resources */,
-				4B20278327A8AFA90036C8DC /* Main.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -319,14 +315,6 @@
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXVariantGroup section */
-		4B20278127A8AFA90036C8DC /* Main.storyboard */ = {
-			isa = PBXVariantGroup;
-			children = (
-				4B20278227A8AFA90036C8DC /* Base */,
-			);
-			name = Main.storyboard;
-			sourceTree = "<group>";
-		};
 		4B20278927A8AFAB0036C8DC /* LaunchScreen.storyboard */ = {
 			isa = PBXVariantGroup;
 			children = (
@@ -467,7 +455,6 @@
 				INFOPLIST_FILE = city_weather/Info.plist;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
-				INFOPLIST_KEY_UIMainStoryboardFile = Main;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -496,7 +483,6 @@
 				INFOPLIST_FILE = city_weather/Info.plist;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
-				INFOPLIST_KEY_UIMainStoryboardFile = Main;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				LD_RUNPATH_SEARCH_PATHS = (
