@@ -1,5 +1,5 @@
 //
-//  ViewController.swift
+//  LocationsListViewController.swift
 //  city_weather
 //
 //  Created by Alejandro Guerra, 1/31/22.

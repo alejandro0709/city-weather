@@ -1,5 +1,5 @@
 //
-//  CitiesPresenter.swift
+//  LocationsPresenter.swift
 //  city_weather
 //
 //  Created by Alejandro Guerra, on 2/1/22.
