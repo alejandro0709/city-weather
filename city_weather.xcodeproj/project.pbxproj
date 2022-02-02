@@ -40,6 +40,7 @@
 		4B695AD727AA70E700EAD5AF /* LocationDetailsVCView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4B695AD627AA70E700EAD5AF /* LocationDetailsVCView.swift */; };
 		4B695ADA27AA735600EAD5AF /* LocationDetailsPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4B695AD927AA735600EAD5AF /* LocationDetailsPresenter.swift */; };
 		4B695ADC27AA740A00EAD5AF /* LocationDetailsInteractor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4B695ADB27AA740A00EAD5AF /* LocationDetailsInteractor.swift */; };
+		4B695ADF27AA8A3200EAD5AF /* LocationForcastTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4B695ADE27AA8A3200EAD5AF /* LocationForcastTableViewCell.swift */; };
 		4B7A3E3E27A942D900F7A021 /* WeatherRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4B7A3E3D27A942D900F7A021 /* WeatherRepository.swift */; };
 		4B7A3E4127A9440400F7A021 /* Container+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4B7A3E4027A9440400F7A021 /* Container+Extensions.swift */; };
 		E7AD0715082DBF5733951194 /* Pods_city_weather.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FD668C6AFEE39E5E785C1F11 /* Pods_city_weather.framework */; };
@@ -81,6 +82,7 @@
 		4B695AD627AA70E700EAD5AF /* LocationDetailsVCView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationDetailsVCView.swift; sourceTree = "<group>"; };
 		4B695AD927AA735600EAD5AF /* LocationDetailsPresenter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationDetailsPresenter.swift; sourceTree = "<group>"; };
 		4B695ADB27AA740A00EAD5AF /* LocationDetailsInteractor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationDetailsInteractor.swift; sourceTree = "<group>"; };
+		4B695ADE27AA8A3200EAD5AF /* LocationForcastTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationForcastTableViewCell.swift; sourceTree = "<group>"; };
 		4B7A3E3D27A942D900F7A021 /* WeatherRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WeatherRepository.swift; sourceTree = "<group>"; };
 		4B7A3E4027A9440400F7A021 /* Container+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Container+Extensions.swift"; sourceTree = "<group>"; };
 		CFA7C75DF154936475F9BC41 /* Pods-city_weather.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-city_weather.debug.xcconfig"; path = "Target Support Files/Pods-city_weather/Pods-city_weather.debug.xcconfig"; sourceTree = "<group>"; };
@@ -121,8 +123,7 @@
 		4B20277A27A8AFA90036C8DC /* city_weather */ = {
 			isa = PBXGroup;
 			children = (
-				4B695AD327AA6B2C00EAD5AF /* Location Details */,
-				4B695AC127AA16F500EAD5AF /* Locations */,
+				4B695ADD27AA89A300EAD5AF /* Modules */,
 				4B695AB927AA0D1B00EAD5AF /* Routing */,
 				4B7A3E3F27A943A900F7A021 /* DI */,
 				4B7A3E3C27A942C100F7A021 /* Repository */,
@@ -245,8 +246,18 @@
 			isa = PBXGroup;
 			children = (
 				4B695AD627AA70E700EAD5AF /* LocationDetailsVCView.swift */,
+				4B695ADE27AA8A3200EAD5AF /* LocationForcastTableViewCell.swift */,
 			);
 			path = Views;
+			sourceTree = "<group>";
+		};
+		4B695ADD27AA89A300EAD5AF /* Modules */ = {
+			isa = PBXGroup;
+			children = (
+				4B695AD327AA6B2C00EAD5AF /* Location Details */,
+				4B695AC127AA16F500EAD5AF /* Locations */,
+			);
+			path = Modules;
 			sourceTree = "<group>";
 		};
 		4B7A3E3C27A942C100F7A021 /* Repository */ = {
@@ -407,6 +418,7 @@
 				4B695AC327AA171800EAD5AF /* LocationsInteractor.swift in Sources */,
 				4B695ADC27AA740A00EAD5AF /* LocationDetailsInteractor.swift in Sources */,
 				4B695AD727AA70E700EAD5AF /* LocationDetailsVCView.swift in Sources */,
+				4B695ADF27AA8A3200EAD5AF /* LocationForcastTableViewCell.swift in Sources */,
 				4B2027AB27A8DAC00036C8DC /* MetalWeatherApi.swift in Sources */,
 				4B20279A27A8BACE0036C8DC /* NetworkService.swift in Sources */,
 				4B695ADA27AA735600EAD5AF /* LocationDetailsPresenter.swift in Sources */,

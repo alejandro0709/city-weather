@@ -37,7 +37,7 @@ class LocationsListViewController: BaseViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        navigationItem.title = "Cities"
+        navigationItem.title = "Locations"
         
         let presenter = Container.sharedContainer.resolve(LocationsPresenterProtocol.self)!
         presenter.setupDisplayer(viewController: self)
