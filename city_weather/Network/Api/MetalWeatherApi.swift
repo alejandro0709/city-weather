@@ -2,7 +2,7 @@
 //  MetalWeatherApi.swift
 //  city_weather
 //
-//  Created by Alejandro Guerra, DSpot on 1/31/22.
+//  Created by Alejandro Guerra, on 1/31/22.
 //
 
 import Foundation
