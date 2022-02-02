@@ -7,16 +7,16 @@
 
 import Foundation
 
-enum NetworkError: Error{
-    case parameterNils
-    case failEncoding
-    case missingURL
-    case failDecoding
+enum NetworkError: String, Error{
+    case parameterNils = "Parameters are empty."
+    case failEncoding = "Error encoding data in json."
+    case missingURL = "URL was not set."
+    case failDecoding = "Fail decoding data from json. Received data is not in the expected format."
 }
 
-enum NetworkErrorResponse: Error{
-    case authenticationError
-    case badRequest
-    case outdated
-    case failed
+enum NetworkErrorResponse: String,Error{
+    case authenticationError = "Failed authentication"
+    case badRequest = "Bad request"
+    case outdated = "Request is outdated"
+    case failed = "An error occurred. Unable to gather requested information."
 }
