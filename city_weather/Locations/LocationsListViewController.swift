@@ -9,20 +9,20 @@ import UIKit
 import Swinject
 import MBProgressHUD
 
-protocol CitiesDisplayerProtocol{
-    func loadCities(cityList: [CityTableViewCellViewModel])
+protocol LocationsDisplayerProtocol{
+    func loadLocations(locationList: [LocationTableViewCellViewModel])
     func networkState(state: NetworkState)
 }
 
-class CityListViewController: BaseViewController {
+class LocationsListViewController: BaseViewController {
 
     private let router: NavigationControllerRouterProtocol? = Container.sharedContainer.resolve(NavigationControllerRouterProtocol.self)!
-    private let interactor: CitiesInteractorProtocol = Container.sharedContainer.resolve(CitiesInteractorProtocol.self)!
-    private var mainView: CitiesVCView!
-    private var cityList: [CityTableViewCellViewModel] = []
+    private let interactor: LocationsInteractorProtocol = Container.sharedContainer.resolve(LocationsInteractorProtocol.self)!
+    private var mainView: LocationsVCView!
+    private var cityList: [LocationTableViewCellViewModel] = []
     
     fileprivate func setupViews() {
-        mainView = CitiesVCView.init(frame: view.frame)
+        mainView = LocationsVCView.init(frame: view.frame)
         mainView.translatesAutoresizingMaskIntoConstraints = false
         view.addSubview(mainView)
         
@@ -39,7 +39,7 @@ class CityListViewController: BaseViewController {
         super.viewDidLoad()
         navigationItem.title = "Cities"
         
-        let presenter = Container.sharedContainer.resolve(CitiesPresenterProtocol.self)!
+        let presenter = Container.sharedContainer.resolve(LocationsPresenterProtocol.self)!
         presenter.setupDisplayer(viewController: self)
         
         setupViews()
@@ -48,9 +48,9 @@ class CityListViewController: BaseViewController {
 
 }
 
-extension CityListViewController: CitiesDisplayerProtocol{
-    func loadCities(cityList: [CityTableViewCellViewModel]){
-        self.cityList = cityList
+extension LocationsListViewController: LocationsDisplayerProtocol{
+    func loadLocations(locationList: [LocationTableViewCellViewModel]){
+        self.cityList = locationList
         mainView.tableView.reloadData()
     }
     
@@ -64,13 +64,13 @@ extension CityListViewController: CitiesDisplayerProtocol{
     }
 }
 
-extension CityListViewController: UITableViewDelegate, UITableViewDataSource{
+extension LocationsListViewController: UITableViewDelegate, UITableViewDataSource{
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         cityList.count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: CityTableViewCell.reuseIdentifier, for: indexPath) as! CityTableViewCell
+        let cell = tableView.dequeueReusableCell(withIdentifier: LocationTableViewCell.reuseIdentifier, for: indexPath) as! LocationTableViewCell
         cell.setup(model: cityList[indexPath.row])
         return cell
     }
@@ -80,7 +80,7 @@ extension CityListViewController: UITableViewDelegate, UITableViewDataSource{
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        router?.navigateToCity(arg: CityDetailsArg.init(model: cityList[indexPath.row]))
+        router?.navigateToLocation(arg: LocationDetailsArg.init(model: cityList[indexPath.row]))
     }
     
 }

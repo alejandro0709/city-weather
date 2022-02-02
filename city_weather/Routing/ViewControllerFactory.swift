@@ -9,7 +9,7 @@ import Foundation
 import UIKit
 
 protocol ViewControllerFactory{
-    func citiesViewController() -> UIViewController
-    func cityDetailsViewController(arguments: CityDetailsArg) -> UIViewController
-    func locationDayInformationViewController(applicableDate: Date) -> UIViewController
+    func locationsViewController() -> BaseViewController
+    func locationDetailsViewController(arguments: LocationDetailsArg) -> BaseViewController
+    func locationDayInformationViewController(applicableDate: Date) -> BaseViewController
 }

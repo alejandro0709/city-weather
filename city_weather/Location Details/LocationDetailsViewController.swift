@@ -18,10 +18,10 @@ protocol LocationDetailsDisplayer{
 class LocationDetailsViewController: BaseViewController{
     private let router: NavigationControllerRouterProtocol = Container.sharedContainer.resolve(NavigationControllerRouterProtocol.self)!
     private let interactor: LocationDetailsInteractorProtocol = Container.sharedContainer.resolve(LocationDetailsInteractorProtocol.self)!
-    private var arg: CityDetailsArg!
+    private var arg: LocationDetailsArg!
     private var mainView: LocationDetailsVCView!
     
-    convenience init(arg: CityDetailsArg) {
+    convenience init(arg: LocationDetailsArg) {
         self.init()
         self.arg = arg
         let presenter = Container.sharedContainer.resolve(LocationDetailsPresenterProtocol.self)!
@@ -94,11 +94,11 @@ extension LocationDetailsViewController: LocationDetailsDisplayer{
     
 }
 
-struct CityDetailsArg{
+struct LocationDetailsArg{
     let cityName: String
     let woeid: Int
     
-    init(model: CityTableViewCellViewModel){
+    init(model: LocationTableViewCellViewModel){
         cityName = model.name
         woeid = model.woeid
     }

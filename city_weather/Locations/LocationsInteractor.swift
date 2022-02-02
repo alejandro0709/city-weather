@@ -8,25 +8,25 @@
 import Foundation
 import RxSwift
 
-protocol CitiesInteractorProtocol{
+protocol LocationsInteractorProtocol{
     func requestCities()
 }
 
-class CitiesInteractor: CitiesInteractorProtocol{
+class LocationsInteractor: LocationsInteractorProtocol{
     private let repository: WeatherRepositoryProtocol
-    private let presenter: CitiesPresenterProtocol
+    private let presenter: LocationsPresenterProtocol
     private let disposeBag = DisposeBag()
     
-    init(repository: WeatherRepositoryProtocol, presenter: CitiesPresenterProtocol){
+    init(repository: WeatherRepositoryProtocol, presenter: LocationsPresenterProtocol){
         self.repository = repository
         self.presenter = presenter
     }
     
     func requestCities(){
         presenter.networkState(state: .loading)
-        repository.cities().subscribe { cityList in
+        repository.cities().subscribe { list in
             self.presenter.networkState(state: .success)
-            self.presenter.loadCities(cityList: cityList)
+            self.presenter.loadLocations(locationList: list)
         } onFailure: { error in
             self.presenter.networkState(state: .error)
             self.presenter.errorDetected(error: error) {

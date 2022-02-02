@@ -20,13 +20,13 @@ extension Container{
             WeatherRepository.init(provider: resolver.resolve(WeatherProviderProtocol.self)!)
         }.inObjectScope(.container)
         
-        container.register(CitiesPresenterProtocol.self){ _ in
-            CitiesPresenter.init()
+        container.register(LocationsPresenterProtocol.self){ _ in
+            LocationsPresenter.init()
         }.inObjectScope(.weak)
         
-        container.register(CitiesInteractorProtocol.self){ resolver in
-            CitiesInteractor.init(repository: resolver.resolve(WeatherRepositoryProtocol.self)!,
-                                  presenter: resolver.resolve(CitiesPresenterProtocol.self)!)
+        container.register(LocationsInteractorProtocol.self){ resolver in
+            LocationsInteractor.init(repository: resolver.resolve(WeatherRepositoryProtocol.self)!,
+                                  presenter: resolver.resolve(LocationsPresenterProtocol.self)!)
         }.inObjectScope(.weak)
         
         container.register(LocationDetailsPresenterProtocol.self){ _ in

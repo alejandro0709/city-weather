@@ -24,7 +24,7 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         window?.rootViewController = navigationController
         window?.makeKeyAndVisible()
         
-        let factory = CityWeatherViewControllerFactory.init()
+        let factory = LocationWeatherViewControllerFactory.init()
         let router = NavigationControllerRouter.init(navigationController: navigationController, factory: factory)
         Container.sharedContainer.register(NavigationControllerRouterProtocol.self){ _ in
             router

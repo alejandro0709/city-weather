@@ -8,8 +8,8 @@
 import Foundation
 import UIKit
 
-class CityTableViewCell :UITableViewCell {
-    static let reuseIdentifier = "CityTableViewCell"
+class LocationTableViewCell :UITableViewCell {
+    static let reuseIdentifier = "LocationTableViewCell"
     
     private let label : UILabel = {
         let label = UILabel()
@@ -38,7 +38,7 @@ class CityTableViewCell :UITableViewCell {
         bottomView.heightAnchor.constraint(equalToConstant: 1).isActive = true
     }
     
-    func setup(model: CityTableViewCellViewModel){
+    func setup(model: LocationTableViewCellViewModel){
         label.text = model.name
         setNeedsLayout()
     }
@@ -48,7 +48,7 @@ class CityTableViewCell :UITableViewCell {
     }
 }
 
-struct CityTableViewCellViewModel{
+struct LocationTableViewCellViewModel{
     let name: String
     let woeid: Int
     

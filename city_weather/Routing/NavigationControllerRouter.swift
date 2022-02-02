@@ -10,7 +10,7 @@ import UIKit
 
 protocol NavigationControllerRouterProtocol{
     func startApp()
-    func navigateToCity(arg: CityDetailsArg)
+    func navigateToLocation(arg: LocationDetailsArg)
     func navigateToDay(aplicableDate: Date)
 }
 
@@ -24,11 +24,11 @@ class NavigationControllerRouter: NavigationControllerRouterProtocol{
     }
     
     func startApp() {
-        navigationController.pushViewController(factory.citiesViewController(), animated: true)
+        navigationController.pushViewController(factory.locationsViewController(), animated: true)
     }
     
-    func navigateToCity(arg: CityDetailsArg){
-        navigationController.pushViewController(factory.cityDetailsViewController(arguments: arg), animated: true)
+    func navigateToLocation(arg: LocationDetailsArg){
+        navigationController.pushViewController(factory.locationDetailsViewController(arguments: arg), animated: true)
     }
     
     func navigateToDay(aplicableDate: Date){

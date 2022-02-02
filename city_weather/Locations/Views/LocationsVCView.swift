@@ -8,7 +8,7 @@
 import Foundation
 import UIKit
 
-class CitiesVCView: UIView{
+class LocationsVCView: UIView{
     
     let tableView: UITableView = {
         let table = UITableView()
@@ -33,7 +33,7 @@ class CitiesVCView: UIView{
         tableView.topAnchor.constraint(equalTo: topAnchor).isActive = true
         tableView.bottomAnchor.constraint(equalTo: bottomAnchor).isActive = true
         
-        tableView.register(CityTableViewCell.self, forCellReuseIdentifier: CityTableViewCell.reuseIdentifier)
+        tableView.register(LocationTableViewCell.self, forCellReuseIdentifier: LocationTableViewCell.reuseIdentifier)
         
     }
     
