@@ -10,6 +10,6 @@ import UIKit
 
 protocol ViewControllerFactory{
     func citiesViewController() -> UIViewController
-    func cityDetailsViewController(woeid: Int) -> UIViewController
+    func cityDetailsViewController(arguments: CityDetailsArg) -> UIViewController
     func locationDayInformationViewController(applicableDate: Date) -> UIViewController
 }

@@ -15,12 +15,13 @@ class CitiesVCView: UIView{
         table.separatorColor = .clear
         table.contentInset = UIEdgeInsets(top: 8, left: 0, bottom: 8, right: 0)
         table.separatorInset = UIEdgeInsets.init(top: 0, left: 0, bottom: 0, right: 0)
+        table.backgroundColor = .white
         return table
     }()
     
     override init(frame: CGRect){
         super.init(frame: frame)
-        backgroundColor = .systemPurple
+        setupViews()
     }
     
     func setupViews(){

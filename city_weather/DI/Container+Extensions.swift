@@ -29,6 +29,15 @@ extension Container{
                                   presenter: resolver.resolve(CitiesPresenterProtocol.self)!)
         }.inObjectScope(.weak)
         
+        container.register(LocationDetailsPresenterProtocol.self){ _ in
+            LocationDetailsPresenter()
+        }.inObjectScope(.weak)
+        
+        container.register(LocationDetailsInteractorProtocol.self){ resolver in
+            LocationDetailsInteractor.init(presenter: resolver.resolve(LocationDetailsPresenterProtocol.self)!,
+                                       repository: resolver.resolve(WeatherRepositoryProtocol.self)!)
+        }
+        
         return container
     }()
 }

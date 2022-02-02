@@ -31,14 +31,12 @@ class CityListViewController: BaseViewController {
         mainView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor).isActive = true
         mainView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor).isActive = true
         
-        mainView.setupViews()
         mainView.tableView.delegate = self
         mainView.tableView.dataSource = self
     }
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        view.backgroundColor = .white
         navigationItem.title = "Cities"
         
         let presenter = Container.sharedContainer.resolve(CitiesPresenterProtocol.self)!
@@ -82,7 +80,7 @@ extension CityListViewController: UITableViewDelegate, UITableViewDataSource{
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        router?.navigateToCity(woeid: cityList[indexPath.row].woeid)
+        router?.navigateToCity(arg: CityDetailsArg.init(model: cityList[indexPath.row]))
     }
     
 }

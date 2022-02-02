@@ -13,8 +13,8 @@ class CityWeatherViewControllerFactory: ViewControllerFactory {
         CityListViewController()
     }
     
-    func cityDetailsViewController(woeid: Int) -> UIViewController {
-        CityListViewController()
+    func cityDetailsViewController(arguments: CityDetailsArg) -> UIViewController {
+        LocationDetailsViewController.init(arg: arguments)
     }
     
     func locationDayInformationViewController(applicableDate: Date) -> UIViewController {
