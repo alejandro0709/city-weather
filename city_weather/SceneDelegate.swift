@@ -6,11 +6,12 @@
 //
 
 import UIKit
+import Swinject
 
 class SceneDelegate: UIResponder, UIWindowSceneDelegate {
 
     var window: UIWindow?
-
+    private lazy var navigationController = UINavigationController()
 
     func scene(_ scene: UIScene, willConnectTo session: UISceneSession, options connectionOptions: UIScene.ConnectionOptions) {
         // Use this method to optionally configure and attach the UIWindow `window` to the provided UIWindowScene `scene`.
@@ -20,8 +21,16 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         
         window = UIWindow.init(frame: windowScene.coordinateSpace.bounds)
         window?.windowScene = windowScene
-        window?.rootViewController = ViewController()
+        window?.rootViewController = navigationController
         window?.makeKeyAndVisible()
+        
+        let factory = CityWeatherViewControllerFactory.init()
+        let router = NavigationControllerRouter.init(navigationController: navigationController, factory: factory)
+        Container.sharedContainer.register(NavigationControllerRouterProtocol.self){ _ in
+            router
+        }.inObjectScope(.container)
+        
+        router.startApp()
     }
 
     func sceneDidDisconnect(_ scene: UIScene) {

@@ -6,13 +6,15 @@
 //
 
 import UIKit
+import Swinject
 
 class ViewController: UIViewController {
 
+    private let router: NavigationControllerRouterProtocol? = Container.sharedContainer.resolve(NavigationControllerRouterProtocol.self)
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = .systemBlue
-        // Do any additional setup after loading the view.
     }
 
 
