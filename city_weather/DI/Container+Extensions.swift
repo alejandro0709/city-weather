@@ -24,8 +24,13 @@ extension Container{
             WeatherRepository.init(provider: resolver.resolve(WeatherProviderProtocol.self)!)
         }.inObjectScope(.container)
         
+        container.register(ImageCacheProtocol.self){ resolver in
+            ImageCache()
+        }.inObjectScope(.container)
+        
         container.register(WeatherImageRepositoryProtocol.self){ resolver in
-            WeatherImageRepository.init(provider: resolver.resolve(WeatherImageProviderProtocol.self)!)
+            WeatherImageRepository.init(provider: resolver.resolve(WeatherImageProviderProtocol.self)!,
+                                        cache: resolver.resolve(ImageCacheProtocol.self)!)
         }.inObjectScope(.container)
         
         container.register(LocationsPresenterProtocol.self){ _ in

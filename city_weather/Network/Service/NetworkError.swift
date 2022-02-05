@@ -20,3 +20,8 @@ enum NetworkErrorResponse: String,Error{
     case outdated = "Request is outdated"
     case failed = "An error occurred. Unable to gather requested information."
 }
+
+enum ImageError: Error{
+    case fileNotFound
+    case invalidPath
+}

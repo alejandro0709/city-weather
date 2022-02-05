@@ -240,7 +240,7 @@ class ForecastDayCollectionViewCell : UICollectionViewCell {
         
         windDirectionLabel.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 16).isActive = true
         windDirectionLabel.topAnchor.constraint(equalTo: windSpeedLabel.bottomAnchor,constant: 4).isActive = true
-        windDirectionLabel.trailingAnchor.constraint(equalTo: centerView.leadingAnchor, constant: -2).isActive = true
+        windDirectionLabel.trailingAnchor.constraint(equalTo: centerView.leadingAnchor, constant: -8).isActive = true
     }
     
     override init(frame: CGRect) {
@@ -347,6 +347,7 @@ struct ForecastDayCollectionViewCellViewModel{
     let humidity : Int
     let visibility : Double
     let predictability : Int
+    let created: Date
     
     init(weather: ConsolidatedWeather){
         id = weather.id ?? 0
@@ -362,6 +363,7 @@ struct ForecastDayCollectionViewCellViewModel{
         humidity = weather.humidity ?? 0
         visibility = weather.visibility ?? 0
         predictability = weather.predictability ?? 0
+        created = weather.created
     }
 }
         

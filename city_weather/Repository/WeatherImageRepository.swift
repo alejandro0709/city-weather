@@ -14,19 +14,25 @@ protocol WeatherImageRepositoryProtocol{
 
 class WeatherImageRepository: WeatherImageRepositoryProtocol{
     private let provider: WeatherImageProviderProtocol
+    private let cache: ImageCacheProtocol
     private let disposeBag = DisposeBag()
     
-    init(provider: WeatherImageProviderProtocol){
+    init(provider: WeatherImageProviderProtocol, cache: ImageCacheProtocol){
         self.provider = provider
+        self.cache = cache
     }
     
     func loadImage(by abbr: String, completion: @escaping ((_ imageData: Data) -> ())){
+        if let imageData = cache.getImageData(by: abbr){
+            completion(imageData)
+            return
+        }
+        
         provider.weatherImage(by: abbr)
-            .subscribe { data in
-                guard let data = data else { return }
-                completion(data)
-            } onFailure: { error in
-                print(error)
-            }.disposed(by: disposeBag)
+            .do(onSuccess:{[weak self] imageData in
+                guard let imageData = imageData else { return }
+                completion(imageData)
+                self?.cache.saveImage(abbr: abbr, imageData: imageData)
+            }).subscribe().disposed(by: disposeBag)
     }
 }
