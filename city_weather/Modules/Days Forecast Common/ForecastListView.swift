@@ -1,14 +1,14 @@
 //
-//  LocationDayVCView.swift
+//  LocationDetailsVCView.swift
 //  city_weather
 //
-//  Created by Alejandro Guerra on 2/5/22.
+//  Created by Alejandro Guerra, on 2/2/22.
 //
 
 import Foundation
 import UIKit
 
-class LocationDayVCView: UIView{
+class ForecastListView: UIView{
     let collectionView: UICollectionView
     
     override init(frame: CGRect){

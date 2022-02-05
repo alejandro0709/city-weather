@@ -49,7 +49,16 @@ extension Container{
         container.register(LocationDetailsInteractorProtocol.self){ resolver in
             LocationDetailsInteractor.init(presenter: resolver.resolve(LocationDetailsPresenterProtocol.self)!,
                                        repository: resolver.resolve(WeatherRepositoryProtocol.self)!)
-        }
+        }.inObjectScope(.weak)
+        
+        container.register(LocationDayPresenterProtocol.self){ resolver in
+            LocationDayPresenter.init()
+        }.inObjectScope(.weak)
+        
+        container.register(LocationDayInteractorProtocol.self){ resolver in
+            LocationDayInteractor.init(repository: resolver.resolve(WeatherRepositoryProtocol.self)!,
+                                       presenter: resolver.resolve(LocationDayPresenterProtocol.self)!)
+        }.inObjectScope(.weak)
         
         return container
     }()
