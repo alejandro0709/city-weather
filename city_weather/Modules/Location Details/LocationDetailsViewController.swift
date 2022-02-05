@@ -149,4 +149,8 @@ extension LocationDetailsViewController: UICollectionViewDelegateFlowLayout, UIC
         UIEdgeInsets.init(top: 2, left: 2, bottom: 2, right: 2)
     }
     
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        router.navigateToDay(aplicableDate: foreCastModelList[indexPath.row].applicableDate, locationName: arg.cityName, woeid: arg.woeid)
+    }
+    
 }

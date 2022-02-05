@@ -274,9 +274,7 @@ class ForecastDayCollectionViewCell : UICollectionViewCell {
     }
     
     func setup(model: ForecastDayCollectionViewCellViewModel){
-        let format = DateFormatter()
-        format.dateFormat = "d/MM/yyyy"
-        dateLabel.text = format.string(from: model.applicableDate)
+        dateLabel.text = model.applicableDate.prettyDate()
         
         setupTemperatureText(label: tempLabel, tempValue: Double(model.temp))
         setupTemperatureText(label: minTempValueLabel, tempValue: Double(model.minTemp))
@@ -348,8 +346,9 @@ struct ForecastDayCollectionViewCellViewModel{
     let visibility : Double
     let predictability : Int
     let created: Date
+    let dayDetails: Bool
     
-    init(weather: ConsolidatedWeather){
+    init(weather: ConsolidatedWeather, dayDetails: Bool = false){
         id = weather.id ?? 0
         weatherStateAbbr = weather.weather_state_abbr ?? ""
         windDirectionCompass = weather.wind_direction_compass ?? ""
@@ -363,7 +362,8 @@ struct ForecastDayCollectionViewCellViewModel{
         humidity = weather.humidity ?? 0
         visibility = weather.visibility ?? 0
         predictability = weather.predictability ?? 0
-        created = weather.created
+        created = weather.created ?? Date()
+        self.dayDetails = dayDetails
     }
 }
         

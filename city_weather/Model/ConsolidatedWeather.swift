@@ -11,7 +11,7 @@ struct ConsolidatedWeather : Codable {
     let weather_state_name : String?
     let weather_state_abbr : String?
     let wind_direction_compass : String?
-    let created : String?
+    let created : Date?
     let applicable_date : Date?
     let min_temp : Int?
     let max_temp : Int?
@@ -48,7 +48,15 @@ struct ConsolidatedWeather : Codable {
         weather_state_name = try values.decodeIfPresent(String.self, forKey: .weather_state_name)
         weather_state_abbr = try values.decodeIfPresent(String.self, forKey: .weather_state_abbr)
         wind_direction_compass = try values.decodeIfPresent(String.self, forKey: .wind_direction_compass)
-        created = try values.decodeIfPresent(String.self, forKey: .created)
+        
+        let createdFormat = DateFormatter()
+        createdFormat.dateFormat = "yyyy-MM-dd'T'HH:mm:ss.SSS'Z'"
+        if let createdDateText = try values.decodeIfPresent(String.self, forKey: .created){
+            created = createdFormat.date(from: createdDateText)
+        } else {
+            created = nil
+        }
+    
         let format = DateFormatter()
         format.dateFormat = "yyyy-mm-dd"
         if let dateText = try values.decodeIfPresent(String.self, forKey: .applicable_date) {

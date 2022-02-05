@@ -11,7 +11,7 @@ import UIKit
 protocol NavigationControllerRouterProtocol{
     func startApp()
     func navigateToLocation(arg: LocationDetailsArg)
-    func navigateToDay(aplicableDate: Date)
+    func navigateToDay(aplicableDate: Date, locationName: String, woeid: Int)
     func navigateBack()
 }
 
@@ -32,8 +32,8 @@ class NavigationControllerRouter: NavigationControllerRouterProtocol{
         navigationController.pushViewController(factory.locationDetailsViewController(arguments: arg), animated: true)
     }
     
-    func navigateToDay(aplicableDate: Date){
-        navigationController.pushViewController(factory.locationDayInformationViewController(applicableDate: aplicableDate), animated: true)
+    func navigateToDay(aplicableDate: Date, locationName: String, woeid: Int){
+        navigationController.pushViewController(factory.locationDayInformationViewController(applicableDate: aplicableDate, locationName: locationName, woeid: woeid), animated: true)
     }
     
     func navigateBack(){

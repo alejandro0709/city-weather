@@ -11,5 +11,5 @@ import UIKit
 protocol ViewControllerFactory{
     func locationsViewController() -> BaseViewController
     func locationDetailsViewController(arguments: LocationDetailsArg) -> BaseViewController
-    func locationDayInformationViewController(applicableDate: Date) -> BaseViewController
+    func locationDayInformationViewController(applicableDate: Date, locationName: String, woeid: Int) -> BaseViewController
 }
