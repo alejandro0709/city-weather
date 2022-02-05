@@ -139,10 +139,51 @@ class ForecastDayCollectionViewCell : UICollectionViewCell {
     var headerContainer = UIView()
     var bottomContainer = UIView()
     
+    var dateConstraints = [NSLayoutConstraint]()
+    
+    var tempConstraintsForLocationDetail = [NSLayoutConstraint]()
+    var tempConstraintsForLocationDay = [NSLayoutConstraint]()
+    
+    let minMaxTemptGuide: UIView = {
+        let view = UIView()
+        view.backgroundColor = .white
+        view.translatesAutoresizingMaskIntoConstraints = false
+        return view
+    }()
+    
+    override init(frame: CGRect) {
+        super.init(frame: frame)
+        
+        backgroundColor = UIColor.black.withAlphaComponent(0.90)
+        layer.cornerRadius = 4
+        
+        headerContainer.translatesAutoresizingMaskIntoConstraints = false
+        
+        contentView.addSubview(headerContainer)
+        let headerBottomLine = UIView()
+        headerBottomLine.translatesAutoresizingMaskIntoConstraints = false
+        headerBottomLine.backgroundColor = .white
+        contentView.addSubview(headerBottomLine)
+        headerBottomLine.leadingAnchor.constraint(equalTo: headerContainer.leadingAnchor).isActive = true
+        headerBottomLine.trailingAnchor.constraint(equalTo: headerContainer.trailingAnchor).isActive = true
+        headerBottomLine.heightAnchor.constraint(equalToConstant: 1).isActive = true
+        
+        headerContainer.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 16).isActive = true
+        headerContainer.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -16).isActive = true
+        
+        setupDateView()
+        setupWeatherImage()
+        setupPrincipalTempetureViewConstraint()
+        setupTempeturesViewsConstraints(headerBottomLine)
+        setupBottomContainerConstraint(headerBottomLine)
+        setupTemperatureViewsConstraintsVariant(headerBottomLine: headerBottomLine)
+    }
+    
     fileprivate func setupDateView() {
         headerContainer.addSubview(dateLabel)
-        dateLabel.leadingAnchor.constraint(equalTo: headerContainer.leadingAnchor).isActive = true
-        dateLabel.centerYAnchor.constraint(equalTo: headerContainer.centerYAnchor).isActive = true
+        dateConstraints = [dateLabel.leadingAnchor.constraint(equalTo: headerContainer.leadingAnchor),
+                          dateLabel.centerYAnchor.constraint(equalTo: headerContainer.centerYAnchor)
+        ]
     }
     
     fileprivate func setupWeatherImage() {
@@ -153,58 +194,54 @@ class ForecastDayCollectionViewCell : UICollectionViewCell {
         weatherImageView.widthAnchor.constraint(equalToConstant: 64).isActive = true
     }
     
-    fileprivate func setupTempeture() {
+    fileprivate func setupPrincipalTempetureViewConstraint() {
         contentView.addSubview(tempLabel)
-        tempLabel.centerXAnchor.constraint(equalTo: headerContainer.centerXAnchor).isActive = true
-        tempLabel.topAnchor.constraint(equalTo: topAnchor, constant: 16).isActive = true
-        headerContainer.topAnchor.constraint(equalTo: tempLabel.topAnchor).isActive = true
-        headerContainer.bottomAnchor.constraint(equalTo: tempLabel.bottomAnchor).isActive = true
+        tempConstraintsForLocationDetail.append(contentsOf: [
+            tempLabel.centerXAnchor.constraint(equalTo: headerContainer.centerXAnchor),
+            tempLabel.topAnchor.constraint(equalTo: topAnchor, constant: 16),
+            headerContainer.topAnchor.constraint(equalTo: tempLabel.topAnchor),
+            headerContainer.bottomAnchor.constraint(equalTo: tempLabel.bottomAnchor)
+        ])
     }
     
-    fileprivate func setupMinMaxTempetures(textLabel: UILabel, valueLabel: UILabel,
+    fileprivate func setupMinMaxTempeturesViewsConstraints(textLabel: UILabel, valueLabel: UILabel,
                                          minMaxTemptGuide: UIView, isMin: Bool = true){
         let tempContainer = UIView()
         tempContainer.translatesAutoresizingMaskIntoConstraints = false
         contentView.addSubview(tempContainer)
         tempContainer.addSubview(textLabel)
         tempContainer.addSubview(valueLabel)
-        tempContainer.topAnchor.constraint(equalTo: tempLabel.bottomAnchor).isActive = true
-        tempContainer.widthAnchor.constraint(greaterThanOrEqualTo: textLabel.widthAnchor).isActive = true
-        tempContainer.widthAnchor.constraint(equalTo: valueLabel.widthAnchor, constant: 11).isActive = true
         
-        if isMin{
-            tempContainer.trailingAnchor.constraint(equalTo: minMaxTemptGuide.leadingAnchor, constant: -2).isActive = true
-        } else{
-            tempContainer.leadingAnchor.constraint(equalTo: minMaxTemptGuide.trailingAnchor, constant: 2).isActive = true
-        }
-        
-        tempContainer.bottomAnchor.constraint(equalTo: valueLabel.bottomAnchor).isActive = true
-        
-        textLabel.topAnchor.constraint(equalTo: tempContainer.topAnchor).isActive = true
-        textLabel.leadingAnchor.constraint(equalTo: valueLabel.leadingAnchor).isActive = true
-        textLabel.trailingAnchor.constraint(equalTo: valueLabel.trailingAnchor).isActive = true
-        
-        valueLabel.centerXAnchor.constraint(equalTo: tempContainer.centerXAnchor).isActive = true
-        valueLabel.topAnchor.constraint(equalTo: textLabel.bottomAnchor).isActive = true
+        tempConstraintsForLocationDetail.append(contentsOf: [
+            tempContainer.topAnchor.constraint(equalTo: tempLabel.bottomAnchor),
+            tempContainer.widthAnchor.constraint(greaterThanOrEqualTo: textLabel.widthAnchor),
+            tempContainer.widthAnchor.constraint(equalTo: valueLabel.widthAnchor, constant: 11),
+            isMin ? tempContainer.trailingAnchor.constraint(equalTo: minMaxTemptGuide.leadingAnchor, constant: -2) : tempContainer.leadingAnchor.constraint(equalTo: minMaxTemptGuide.trailingAnchor, constant: 2),
+            tempContainer.bottomAnchor.constraint(equalTo: valueLabel.bottomAnchor),
+            textLabel.topAnchor.constraint(equalTo: tempContainer.topAnchor),
+            textLabel.leadingAnchor.constraint(equalTo: valueLabel.leadingAnchor),
+            textLabel.trailingAnchor.constraint(equalTo: valueLabel.trailingAnchor),
+            valueLabel.centerXAnchor.constraint(equalTo: tempContainer.centerXAnchor),
+            valueLabel.topAnchor.constraint(equalTo: textLabel.bottomAnchor)
+        ])
     }
     
-    fileprivate func setupTempetureMinMax(_ headerBottomLine: UIView) {
-        let minMaxTemptGuide = UIView()
-        minMaxTemptGuide.backgroundColor = .white
-        minMaxTemptGuide.translatesAutoresizingMaskIntoConstraints = false
+    fileprivate func setupTempeturesViewsConstraints(_ headerBottomLine: UIView) {
         contentView.addSubview(minMaxTemptGuide)
-        minMaxTemptGuide.centerXAnchor.constraint(equalTo: tempLabel.centerXAnchor).isActive = true
-        minMaxTemptGuide.widthAnchor.constraint(equalToConstant: 1).isActive = true
-        minMaxTemptGuide.topAnchor.constraint(equalTo: tempLabel.bottomAnchor).isActive = true
         
-        setupMinMaxTempetures(textLabel: minTempLabel, valueLabel: minTempValueLabel, minMaxTemptGuide: minMaxTemptGuide)
-        setupMinMaxTempetures(textLabel: maxTempLabel, valueLabel: maxTempValueLabel, minMaxTemptGuide: minMaxTemptGuide, isMin: false)
-        
-        minMaxTemptGuide.bottomAnchor.constraint(equalTo: maxTempValueLabel.bottomAnchor).isActive = true
-        headerBottomLine.topAnchor.constraint(equalTo: minMaxTemptGuide.bottomAnchor, constant: 8).isActive = true
+        setupMinMaxTempeturesViewsConstraints(textLabel: minTempLabel, valueLabel: minTempValueLabel, minMaxTemptGuide: minMaxTemptGuide)
+        setupMinMaxTempeturesViewsConstraints(textLabel: maxTempLabel, valueLabel: maxTempValueLabel, minMaxTemptGuide: minMaxTemptGuide, isMin: false)
+                
+        tempConstraintsForLocationDetail.append(contentsOf: [
+            minMaxTemptGuide.centerXAnchor.constraint(equalTo: tempLabel.centerXAnchor),
+            minMaxTemptGuide.widthAnchor.constraint(equalToConstant: 1),
+            minMaxTemptGuide.topAnchor.constraint(equalTo: tempLabel.bottomAnchor),
+            minMaxTemptGuide.bottomAnchor.constraint(equalTo: maxTempValueLabel.bottomAnchor),
+            headerBottomLine.topAnchor.constraint(equalTo: minMaxTemptGuide.bottomAnchor, constant: 8)
+        ])
     }
     
-    fileprivate func setupBottomContainer(_ headerBottomLine: UIView) {
+    fileprivate func setupBottomContainerConstraint(_ headerBottomLine: UIView) {
         let centerView = UIView()
         contentView.addSubview(centerView)
         centerView.translatesAutoresizingMaskIntoConstraints = false
@@ -243,38 +280,48 @@ class ForecastDayCollectionViewCell : UICollectionViewCell {
         windDirectionLabel.trailingAnchor.constraint(equalTo: centerView.leadingAnchor, constant: -8).isActive = true
     }
     
-    override init(frame: CGRect) {
-        super.init(frame: frame)
-        
-        backgroundColor = UIColor.black.withAlphaComponent(0.90)
-        layer.cornerRadius = 4
-        
-        headerContainer.translatesAutoresizingMaskIntoConstraints = false
-        
-        contentView.addSubview(headerContainer)
-        let headerBottomLine = UIView()
-        headerBottomLine.translatesAutoresizingMaskIntoConstraints = false
-        headerBottomLine.backgroundColor = .white
-        contentView.addSubview(headerBottomLine)
-        
-        
-        headerBottomLine.leadingAnchor.constraint(equalTo: headerContainer.leadingAnchor).isActive = true
-        headerBottomLine.trailingAnchor.constraint(equalTo: headerContainer.trailingAnchor).isActive = true
-        headerBottomLine.heightAnchor.constraint(equalToConstant: 1).isActive = true
-        
-        headerContainer.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 16).isActive = true
-        headerContainer.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -16).isActive = true
-
-        setupDateView()
-        setupWeatherImage()
-        setupTempeture()
-        setupTempetureMinMax(headerBottomLine)
-        
-        setupBottomContainer(headerBottomLine)
+    fileprivate func setupTemperatureViewsConstraintsVariant(headerBottomLine: UIView){
+        tempConstraintsForLocationDay.append(contentsOf: [
+            tempLabel.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 16),
+            tempLabel.centerYAnchor.constraint(equalTo: weatherImageView.centerYAnchor),
+            weatherImageView.topAnchor.constraint(equalTo: contentView.topAnchor,constant: 16),
+            headerBottomLine.topAnchor.constraint(equalTo: weatherImageView.bottomAnchor, constant: 8),
+            minMaxTemptGuide.topAnchor.constraint(equalTo: tempLabel.topAnchor),
+            minMaxTemptGuide.bottomAnchor.constraint(equalTo: tempLabel.bottomAnchor),
+            minMaxTemptGuide.leadingAnchor.constraint(equalTo: tempLabel.trailingAnchor, constant: 8),
+            minMaxTemptGuide.widthAnchor.constraint(equalToConstant: 1),
+            minTempLabel.leadingAnchor.constraint(equalTo: minMaxTemptGuide.trailingAnchor, constant: 8),
+            minTempLabel.topAnchor.constraint(equalTo: minMaxTemptGuide.topAnchor, constant: 2),
+            minTempValueLabel.leadingAnchor.constraint(equalTo: minTempLabel.trailingAnchor, constant: 4),
+            minTempValueLabel.centerYAnchor.constraint(equalTo: minTempLabel.centerYAnchor),
+            maxTempLabel.leadingAnchor.constraint(equalTo: minMaxTemptGuide.trailingAnchor, constant: 8),
+            maxTempLabel.bottomAnchor.constraint(equalTo: minMaxTemptGuide.bottomAnchor, constant: -2),
+            maxTempValueLabel.leadingAnchor.constraint(equalTo: maxTempLabel.trailingAnchor, constant: 4),
+            maxTempValueLabel.centerYAnchor.constraint(equalTo: maxTempLabel.centerYAnchor)
+        ])
     }
     
     func setup(model: ForecastDayCollectionViewCellViewModel){
         dateLabel.text = model.applicableDate.prettyDate()
+        
+        dateLabel.isHidden = model.dayDetails
+        
+        tempLabel.font = UIFont.boldSystemFont(ofSize: !model.dayDetails ? 28 : 38)
+        
+        maxTempLabel.text = model.dayDetails ? "Max:" : "Max"
+        minTempLabel.text = model.dayDetails ? "Min:" : "Min"
+        
+        if !model.dayDetails{
+            NSLayoutConstraint.activate(dateConstraints)
+            NSLayoutConstraint.activate(tempConstraintsForLocationDetail)
+            
+            NSLayoutConstraint.deactivate(tempConstraintsForLocationDay)
+        } else {
+            NSLayoutConstraint.activate(tempConstraintsForLocationDay)
+            
+            NSLayoutConstraint.deactivate(dateConstraints)
+            NSLayoutConstraint.deactivate(tempConstraintsForLocationDetail)
+        }
         
         setupTemperatureText(label: tempLabel, tempValue: Double(model.temp))
         setupTemperatureText(label: minTempValueLabel, tempValue: Double(model.minTemp))
@@ -297,7 +344,7 @@ class ForecastDayCollectionViewCell : UICollectionViewCell {
         setNeedsLayout()
     }
     
-    func getValueFormatted(value: Double, unit: Unit) -> String{
+    fileprivate func getValueFormatted(value: Double, unit: Unit) -> String{
         let measurement = Measurement.init(value: value, unit: unit)
         let measurementFormatter = MeasurementFormatter()
         measurementFormatter.unitStyle = .medium
@@ -327,7 +374,6 @@ class ForecastDayCollectionViewCell : UICollectionViewCell {
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
-    
     
 }
 
