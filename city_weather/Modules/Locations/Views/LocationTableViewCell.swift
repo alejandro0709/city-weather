@@ -24,6 +24,7 @@ class LocationTableViewCell :UITableViewCell {
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
         selectionStyle = .none
+        contentView.backgroundColor = .white
         
         contentView.addSubview(label)
         label.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 16).isActive = true

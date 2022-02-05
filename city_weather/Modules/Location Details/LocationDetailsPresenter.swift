@@ -30,6 +30,8 @@ class LocationDetailsPresenter: LocationDetailsPresenterProtocol{
     }
     
     func locationDetails(location: Location){
-        
+        viewcontroller?.loadForecast(itemList: location.consolidated_weather?.map({ item -> ForecastDayCollectionViewCellViewModel in
+            ForecastDayCollectionViewCellViewModel.init(weather: item)
+        }) ?? [])
     }
 }

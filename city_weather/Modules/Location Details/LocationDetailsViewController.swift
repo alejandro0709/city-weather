@@ -12,7 +12,7 @@ import MBProgressHUD
 protocol LocationDetailsDisplayer{
     func networkState(state: NetworkState)
     func errorDetected(error: Error, retryAction: (() -> ())?)
-    
+    func loadForecast(itemList: [ForecastDayCollectionViewCellViewModel])
 }
 
 class LocationDetailsViewController: BaseViewController{
@@ -20,6 +20,7 @@ class LocationDetailsViewController: BaseViewController{
     private let interactor: LocationDetailsInteractorProtocol = Container.sharedContainer.resolve(LocationDetailsInteractorProtocol.self)!
     private var arg: LocationDetailsArg!
     private var mainView: LocationDetailsVCView!
+    private var foreCastModelList: [ForecastDayCollectionViewCellViewModel] = []
     
     convenience init(arg: LocationDetailsArg) {
         self.init()
@@ -37,14 +38,32 @@ class LocationDetailsViewController: BaseViewController{
         mainView.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor).isActive = true
         mainView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor).isActive = true
         mainView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor).isActive = true
+        
+        mainView.collectionView.delegate = self
+        mainView.collectionView.dataSource = self
     }
     
     override func viewDidLoad() {
         super.viewDidLoad()
         navigationItem.title = arg.cityName
+        navigationItem.leftBarButtonItem = UIBarButtonItem.init(image: UIImage.init(named: "back"), style: .plain, target: self, action: #selector(navigateBack))
+        
         setupViews()
         interactor.requestLocationData(woeid: arg.woeid)
+        NotificationCenter.default.addObserver(self, selector: #selector(rotationDetected), name: UIDevice.orientationDidChangeNotification, object: nil)
     }
+    
+    @objc func navigateBack(){
+        router.navigateBack()
+    }
+    
+    @objc func rotationDetected(){
+        if foreCastModelList.isEmpty { return }
+        DispatchQueue.main.async {[weak self] in
+            self?.mainView.collectionView.reloadData()
+        }
+    }
+
 }
 
 extension LocationDetailsViewController: LocationDetailsDisplayer{
@@ -92,6 +111,13 @@ extension LocationDetailsViewController: LocationDetailsDisplayer{
         present(alert, animated: true)
     }
     
+    func loadForecast(itemList: [ForecastDayCollectionViewCellViewModel]){
+        foreCastModelList = itemList
+        DispatchQueue.main.async {[weak self] in
+            self?.mainView.collectionView.reloadData()
+        }
+    }
+    
 }
 
 struct LocationDetailsArg{
@@ -102,4 +128,25 @@ struct LocationDetailsArg{
         cityName = model.name
         woeid = model.woeid
     }
+}
+
+extension LocationDetailsViewController: UICollectionViewDelegateFlowLayout, UICollectionViewDataSource{
+    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+        foreCastModelList.count
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: ForecastDayCollectionViewCell.reuseIdentifier, for: indexPath) as! ForecastDayCollectionViewCell
+        cell.setup(model: foreCastModelList[indexPath.row])
+        return cell
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
+        return CGSize(width: collectionView.bounds.width - 4, height: CGFloat(188))
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, insetForSectionAt section: Int) -> UIEdgeInsets {
+        UIEdgeInsets.init(top: 2, left: 2, bottom: 2, right: 2)
+    }
+    
 }

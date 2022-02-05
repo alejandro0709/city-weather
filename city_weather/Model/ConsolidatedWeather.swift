@@ -12,10 +12,10 @@ struct ConsolidatedWeather : Codable {
     let weather_state_abbr : String?
     let wind_direction_compass : String?
     let created : String?
-    let applicable_date : String?
-    let min_temp : Double?
-    let max_temp : Double?
-    let the_temp : Double?
+    let applicable_date : Date?
+    let min_temp : Int?
+    let max_temp : Int?
+    let the_temp : Int?
     let wind_speed : Double?
     let wind_direction : Double?
     let air_pressure : Double?
@@ -49,10 +49,18 @@ struct ConsolidatedWeather : Codable {
         weather_state_abbr = try values.decodeIfPresent(String.self, forKey: .weather_state_abbr)
         wind_direction_compass = try values.decodeIfPresent(String.self, forKey: .wind_direction_compass)
         created = try values.decodeIfPresent(String.self, forKey: .created)
-        applicable_date = try values.decodeIfPresent(String.self, forKey: .applicable_date)
-        min_temp = try values.decodeIfPresent(Double.self, forKey: .min_temp)
-        max_temp = try values.decodeIfPresent(Double.self, forKey: .max_temp)
-        the_temp = try values.decodeIfPresent(Double.self, forKey: .the_temp)
+        let format = DateFormatter()
+        format.dateFormat = "yyyy-mm-dd"
+        if let dateText = try values.decodeIfPresent(String.self, forKey: .applicable_date) {
+            applicable_date = format.date(from: dateText)
+        } else {
+            applicable_date = nil
+        }
+        
+        min_temp = Int(try round(values.decodeIfPresent(Double.self, forKey: .min_temp) ?? 0))
+        max_temp = Int(try round(values.decodeIfPresent(Double.self, forKey: .max_temp) ?? 0))
+        the_temp = Int(try round(values.decodeIfPresent(Double.self, forKey: .the_temp) ?? 0))
+        
         wind_speed = try values.decodeIfPresent(Double.self, forKey: .wind_speed)
         wind_direction = try values.decodeIfPresent(Double.self, forKey: .wind_direction)
         air_pressure = try values.decodeIfPresent(Double.self, forKey: .air_pressure)

@@ -12,6 +12,7 @@ protocol NavigationControllerRouterProtocol{
     func startApp()
     func navigateToLocation(arg: LocationDetailsArg)
     func navigateToDay(aplicableDate: Date)
+    func navigateBack()
 }
 
 class NavigationControllerRouter: NavigationControllerRouterProtocol{
@@ -33,6 +34,10 @@ class NavigationControllerRouter: NavigationControllerRouterProtocol{
     
     func navigateToDay(aplicableDate: Date){
         navigationController.pushViewController(factory.locationDayInformationViewController(applicableDate: aplicableDate), animated: true)
+    }
+    
+    func navigateBack(){
+        navigationController.popViewController(animated: true)
     }
     
 }
