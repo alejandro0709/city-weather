@@ -32,7 +32,6 @@ class ForecastDayCollectionViewCell : UICollectionViewCell {
     let weatherImageView: UIImageView = {
         let view = UIImageView()
         view.contentMode = .scaleAspectFill
-        view.backgroundColor = .black
         view.clipsToBounds = true
         view.translatesAutoresizingMaskIntoConstraints = false
         return view
@@ -149,9 +148,9 @@ class ForecastDayCollectionViewCell : UICollectionViewCell {
     fileprivate func setupWeatherImage() {
         headerContainer.addSubview(weatherImageView)
         weatherImageView.trailingAnchor.constraint(equalTo: headerContainer.trailingAnchor).isActive = true
-        weatherImageView.centerYAnchor.constraint(equalTo: headerContainer.centerYAnchor).isActive = true
+        weatherImageView.topAnchor.constraint(equalTo: headerContainer.topAnchor).isActive = true
         weatherImageView.heightAnchor.constraint(equalToConstant: 64).isActive = true
-        weatherImageView.widthAnchor.constraint(equalTo: weatherImageView.widthAnchor, multiplier: 1).isActive = true
+        weatherImageView.widthAnchor.constraint(equalToConstant: 64).isActive = true
     }
     
     fileprivate func setupTempeture() {
@@ -296,6 +295,7 @@ class ForecastDayCollectionViewCell : UICollectionViewCell {
         let directionDegrees = getValueFormatted(value: model.windDirection, unit: UnitAngle.degrees)
         setDesignToTextInLabel(completeText: "Wind direction: \(model.windDirectionCompass), \(directionDegrees)", textToEdit: "\(model.windDirectionCompass), \(directionDegrees)", label: windDirectionLabel)
         
+        weatherImageView.weatherImageByAbbr(abbr: model.weatherStateAbbr)
         setNeedsLayout()
     }
     

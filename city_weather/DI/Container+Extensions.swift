@@ -16,8 +16,16 @@ extension Container{
             WeatherProvider.init(service: Service<MetalWeatherApi>())
         }.inObjectScope(.container)
         
+        container.register(WeatherImageProviderProtocol.self){ resolver in
+            WeatherImageProvider.init(service: Service<MetalWeatherApi>())
+        }.inObjectScope(.container)
+        
         container.register(WeatherRepositoryProtocol.self){ resolver in
             WeatherRepository.init(provider: resolver.resolve(WeatherProviderProtocol.self)!)
+        }.inObjectScope(.container)
+        
+        container.register(WeatherImageRepositoryProtocol.self){ resolver in
+            WeatherImageRepository.init(provider: resolver.resolve(WeatherImageProviderProtocol.self)!)
         }.inObjectScope(.container)
         
         container.register(LocationsPresenterProtocol.self){ _ in
