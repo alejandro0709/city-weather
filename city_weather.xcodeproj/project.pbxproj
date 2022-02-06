@@ -24,15 +24,12 @@
 		4B2027AF27A8E13C0036C8DC /* WeatherProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4B2027AE27A8E13C0036C8DC /* WeatherProvider.swift */; };
 		4B2027B227A8E4510036C8DC /* Location.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4B2027B127A8E4510036C8DC /* Location.swift */; };
 		4B2027B427A8E47F0036C8DC /* ConsolidatedWeather.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4B2027B327A8E47F0036C8DC /* ConsolidatedWeather.swift */; };
-		4B2027B627A8E4A50036C8DC /* Parent.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4B2027B527A8E4A50036C8DC /* Parent.swift */; };
-		4B2027B827A8E4C20036C8DC /* Sources.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4B2027B727A8E4C20036C8DC /* Sources.swift */; };
 		4B695ABB27AA0D2C00EAD5AF /* ViewControllerFactory.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4B695ABA27AA0D2C00EAD5AF /* ViewControllerFactory.swift */; };
 		4B695ABD27AA0E1900EAD5AF /* NavigationControllerRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4B695ABC27AA0E1900EAD5AF /* NavigationControllerRouter.swift */; };
 		4B695AC027AA103500EAD5AF /* LocationWeatherViewControllerFactory.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4B695ABF27AA103500EAD5AF /* LocationWeatherViewControllerFactory.swift */; };
 		4B695AC327AA171800EAD5AF /* LocationsInteractor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4B695AC227AA171800EAD5AF /* LocationsInteractor.swift */; };
 		4B695AC527AA174C00EAD5AF /* LocationsPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4B695AC427AA174C00EAD5AF /* LocationsPresenter.swift */; };
 		4B695AC727AA184200EAD5AF /* NetworkState.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4B695AC627AA184200EAD5AF /* NetworkState.swift */; };
-		4B695AC927AA18C200EAD5AF /* City.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4B695AC827AA18C200EAD5AF /* City.swift */; };
 		4B695ACB27AA1C2800EAD5AF /* LocationsVCView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4B695ACA27AA1C2800EAD5AF /* LocationsVCView.swift */; };
 		4B695AD027AA250A00EAD5AF /* LocationTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4B695ACF27AA250A00EAD5AF /* LocationTableViewCell.swift */; };
 		4B695AD227AA3BD400EAD5AF /* BaseViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4B695AD127AA3BD400EAD5AF /* BaseViewController.swift */; };
@@ -77,15 +74,12 @@
 		4B2027AE27A8E13C0036C8DC /* WeatherProvider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WeatherProvider.swift; sourceTree = "<group>"; };
 		4B2027B127A8E4510036C8DC /* Location.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Location.swift; sourceTree = "<group>"; };
 		4B2027B327A8E47F0036C8DC /* ConsolidatedWeather.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConsolidatedWeather.swift; sourceTree = "<group>"; };
-		4B2027B527A8E4A50036C8DC /* Parent.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Parent.swift; sourceTree = "<group>"; };
-		4B2027B727A8E4C20036C8DC /* Sources.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Sources.swift; sourceTree = "<group>"; };
 		4B695ABA27AA0D2C00EAD5AF /* ViewControllerFactory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewControllerFactory.swift; sourceTree = "<group>"; };
 		4B695ABC27AA0E1900EAD5AF /* NavigationControllerRouter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NavigationControllerRouter.swift; sourceTree = "<group>"; };
 		4B695ABF27AA103500EAD5AF /* LocationWeatherViewControllerFactory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationWeatherViewControllerFactory.swift; sourceTree = "<group>"; };
 		4B695AC227AA171800EAD5AF /* LocationsInteractor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationsInteractor.swift; sourceTree = "<group>"; };
 		4B695AC427AA174C00EAD5AF /* LocationsPresenter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationsPresenter.swift; sourceTree = "<group>"; };
 		4B695AC627AA184200EAD5AF /* NetworkState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkState.swift; sourceTree = "<group>"; };
-		4B695AC827AA18C200EAD5AF /* City.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = City.swift; sourceTree = "<group>"; };
 		4B695ACA27AA1C2800EAD5AF /* LocationsVCView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationsVCView.swift; sourceTree = "<group>"; };
 		4B695ACF27AA250A00EAD5AF /* LocationTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationTableViewCell.swift; sourceTree = "<group>"; };
 		4B695AD127AA3BD400EAD5AF /* BaseViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaseViewController.swift; sourceTree = "<group>"; };
@@ -220,9 +214,6 @@
 			children = (
 				4B2027B127A8E4510036C8DC /* Location.swift */,
 				4B2027B327A8E47F0036C8DC /* ConsolidatedWeather.swift */,
-				4B2027B527A8E4A50036C8DC /* Parent.swift */,
-				4B2027B727A8E4C20036C8DC /* Sources.swift */,
-				4B695AC827AA18C200EAD5AF /* City.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -473,7 +464,6 @@
 				4B6D93AC27AF1E14001EB9A7 /* LocationDayInteractor.swift in Sources */,
 				4B695AC727AA184200EAD5AF /* NetworkState.swift in Sources */,
 				4B6D939A27AEB7AB001EB9A7 /* UIImageView+LoadImage.swift in Sources */,
-				4B2027B627A8E4A50036C8DC /* Parent.swift in Sources */,
 				4B6D93A727AF1435001EB9A7 /* Date+FormatDate.swift in Sources */,
 				4B695ACB27AA1C2800EAD5AF /* LocationsVCView.swift in Sources */,
 				4B695AC327AA171800EAD5AF /* LocationsInteractor.swift in Sources */,
@@ -498,14 +488,12 @@
 				4B2027B427A8E47F0036C8DC /* ConsolidatedWeather.swift in Sources */,
 				4B6D939F27AEBEB2001EB9A7 /* ImageCache.swift in Sources */,
 				4B695AC027AA103500EAD5AF /* LocationWeatherViewControllerFactory.swift in Sources */,
-				4B2027B827A8E4C20036C8DC /* Sources.swift in Sources */,
 				4B6D93A927AF1A68001EB9A7 /* BaseDayForecastViewController.swift in Sources */,
 				4B20279827A8B9C60036C8DC /* JSONParameterEncoded.swift in Sources */,
 				4B695AD027AA250A00EAD5AF /* LocationTableViewCell.swift in Sources */,
 				4B20277C27A8AFA90036C8DC /* AppDelegate.swift in Sources */,
 				4B20277E27A8AFA90036C8DC /* SceneDelegate.swift in Sources */,
 				4B7A3E4127A9440400F7A021 /* Container+Extensions.swift in Sources */,
-				4B695AC927AA18C200EAD5AF /* City.swift in Sources */,
 				4B2027A027A8C5140036C8DC /* NetworkError.swift in Sources */,
 				4BF588A127AE19E800FF25F8 /* ForecastDayCollectionViewCell.swift in Sources */,
 				4B695AD227AA3BD400EAD5AF /* BaseViewController.swift in Sources */,

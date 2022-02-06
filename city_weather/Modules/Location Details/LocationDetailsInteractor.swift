@@ -24,7 +24,9 @@ class LocationDetailsInteractor: LocationDetailsInteractorProtocol{
     
     func requestLocationData(woeid: Int){
         presenter.networkState(state: .loading)
-        repository.location(by: woeid).subscribe { locationData in
+        repository.location(by: woeid, cacheDataCompletion: { itemLocation in
+            self.presenter.locationDetails(location: itemLocation)
+        }).subscribe { locationData in
             self.presenter.networkState(state: .success)
             self.presenter.locationDetails(location: locationData)
         } onFailure: { error in

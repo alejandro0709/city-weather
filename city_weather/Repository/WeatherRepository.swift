@@ -10,7 +10,7 @@ import RxSwift
 
 protocol WeatherRepositoryProtocol{
     func allLocations() -> Single<[Location]>
-    func location(by woeid: Int) -> Single<Location>
+    func location(by woeid: Int, cacheDataCompletion: @escaping((Location) -> ())) -> Single<Location>
     func dayWeather(by woeid: Int, year: Int, month: Int, day: Int) -> Single<[ConsolidatedWeather]>
 }
 
@@ -23,10 +23,13 @@ class WeatherRepository: WeatherRepositoryProtocol{
         self.cache = cache
     }
     
-    func location(by woeid: Int) -> Single<Location>{
+    func location(by woeid: Int, cacheDataCompletion: @escaping((Location) -> ())) -> Single<Location>{
         provider.location(by: woeid)
             .do(onSuccess:{ locationItem in
                 self.cache.saveLocation(location: locationItem)
+            }, onSubscribe: {
+                guard let location = self.cache.getlocation(by: woeid) else { return }
+                cacheDataCompletion(location)
             })
     }
     

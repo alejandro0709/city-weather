@@ -29,6 +29,10 @@ class LocationDetailsViewController: BaseDayForecastViewController{
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         router.navigateToDay(aplicableDate: foreCastModelList[indexPath.row].applicableDate, locationName: arg.cityName, woeid: arg.woeid)
     }
+    
+    override func refreshData() {
+        interactor.requestLocationData(woeid: arg.woeid)
+    }
 }
 
 struct LocationDetailsArg{

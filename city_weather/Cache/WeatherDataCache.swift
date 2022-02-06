@@ -12,7 +12,7 @@ protocol WeatherDataCacheProtocol{
     func allLocations() -> [Location]
     func createDefaultLocations()
     func saveLocation(location: Location)
-    func getlocation(by woeid: Int) -> LocationEntity?
+    func getlocation(by woeid: Int) -> Location?
 }
 
 class WeatherDataCache: WeatherDataCacheProtocol{
@@ -34,7 +34,12 @@ class WeatherDataCache: WeatherDataCacheProtocol{
         }
     }
     
-    func getlocation(by woeid: Int) -> LocationEntity?{
+    func getlocation(by woeid: Int) -> Location?{
+        guard let locationEntity = getlocationEntity(by: woeid) else { return nil }
+        return Location.init(from: locationEntity)
+    }
+    
+    fileprivate func getlocationEntity(by woeid: Int) -> LocationEntity?{
         guard let managedContext = persistentContainer?.viewContext else { return nil }
         let fetchRequest = NSFetchRequest<NSFetchRequestResult>.init(entityName: "LocationEntity")
         fetchRequest.predicate = NSPredicate(format: "woeid = %ld", woeid)
@@ -45,45 +50,59 @@ class WeatherDataCache: WeatherDataCacheProtocol{
         return locationEntity
     }
     
-    fileprivate func setLocationParent(_ location: Location, _ managedContext: NSManagedObjectContext, _ locationEntity: LocationEntity) {
-        if let parent = location.parent{
-            let parentEntity = ParentEntity.init(context: managedContext)
-            parentEntity.woeid = Int32(parent.woeid ?? 0)
-            parentEntity.location_type = parent.location_type
-            parentEntity.latt_long = parent.latt_long
-            parentEntity.title = parent.title
-            parentEntity.location = locationEntity
-            locationEntity.setValue(parentEntity, forKey: "parent")
-        }
+    fileprivate func getConsolidatedWeather(by id: Int) -> ConsolidatedWeatherEntity?{
+        guard let managedContext = persistentContainer?.viewContext else { return nil }
+        let fetchRequest = NSFetchRequest<NSFetchRequestResult>.init(entityName: "ConsolidatedWeatherEntity")
+        fetchRequest.predicate = NSPredicate(format: "id = %ld", id)
+        
+        guard let result = try? managedContext.fetch(fetchRequest),
+              !result.isEmpty,
+              let entity = result.first as? ConsolidatedWeatherEntity else { return nil }
+        
+        return entity
     }
     
-    fileprivate func initializeConsolidatedWeather(_ cw: ConsolidatedWeatherEntity, _ item: ConsolidatedWeather) {
-        cw.air_pressure = item.air_pressure ?? 0
-        cw.applicable_date = item.applicable_date
-        cw.created = item.created
-        cw.humidity = Int32(item.humidity ?? 0)
-        cw.id = Int64(item.id ?? 0)
-        cw.max_temp = Int32(item.max_temp ?? 0)
-        cw.min_temp = Int32(item.min_temp ?? 0)
-        cw.the_temp = Int32(item.the_temp ?? 0)
-        cw.predictability = Int32(item.predictability ?? 0)
-        cw.weather_state_abbr = item.weather_state_abbr
-        cw.weather_state_name = item.weather_state_name
-        cw.wind_speed = item.wind_speed ?? 0
-        cw.wind_direction = item.wind_direction ?? 0
-        cw.wind_direction_compass = item.wind_direction_compass
-        cw.visibility = item.visibility ?? 0
+    fileprivate func initializeConsolidatedWeather(_ item: ConsolidatedWeather, _ managedContext: NSManagedObjectContext) -> ConsolidatedWeatherEntity? {
+        let cwEntity: ConsolidatedWeatherEntity
+        var newObject = true
+        
+        if let entitySaved = getConsolidatedWeather(by: item.id ?? 0){
+            cwEntity = entitySaved
+            newObject = false
+        } else {
+            cwEntity = ConsolidatedWeatherEntity.init(context: managedContext)
+            cwEntity.id = Int64(item.id ?? 0)
+        }
+        
+        cwEntity.air_pressure = item.air_pressure ?? 0
+        cwEntity.applicable_date = item.applicable_date
+        cwEntity.created = item.created
+        cwEntity.humidity = Int32(item.humidity ?? 0)
+        cwEntity.max_temp = Int32(item.max_temp ?? 0)
+        cwEntity.min_temp = Int32(item.min_temp ?? 0)
+        cwEntity.the_temp = Int32(item.the_temp ?? 0)
+        cwEntity.predictability = Int32(item.predictability ?? 0)
+        cwEntity.weather_state_abbr = item.weather_state_abbr
+        cwEntity.weather_state_name = item.weather_state_name
+        cwEntity.wind_speed = item.wind_speed ?? 0
+        cwEntity.wind_direction = item.wind_direction ?? 0
+        cwEntity.wind_direction_compass = item.wind_direction_compass
+        cwEntity.visibility = item.visibility ?? 0
+        
+        return newObject ? cwEntity : nil
+    }
+    
+    fileprivate func getLocationEntityToAddOrUpdate(_ woeid: Int, _ managedContext: NSManagedObjectContext) -> LocationEntity {
+        guard let locationToUpdate = getlocationEntity(by: woeid) else {
+            return LocationEntity.init(context: managedContext)
+        }
+        
+        return locationToUpdate
     }
     
     func saveLocation(location: Location){
         guard let managedContext = persistentContainer?.viewContext else { return }
-        var locationEntity: LocationEntity
-        
-        if let locationToUpdate = getlocation(by: location.woeid ?? 0){
-            locationEntity = locationToUpdate
-        } else{
-            locationEntity = LocationEntity.init(context: managedContext)
-        }
+        let locationEntity = getLocationEntityToAddOrUpdate(location.woeid ?? 0, managedContext)
         
         locationEntity.title = location.title
         locationEntity.woeid = Int32(location.woeid ?? 0)
@@ -95,22 +114,10 @@ class WeatherDataCache: WeatherDataCacheProtocol{
         locationEntity.sun_rise = location.sun_rise
         locationEntity.time = location.time
         
-        setLocationParent(location, managedContext, locationEntity)
-        
-        location.sources?.forEach({ item in
-            let sourceEntity = SourcesEntity.init(context: managedContext)
-            sourceEntity.title = item.title
-            sourceEntity.crawl_rate = Int32(item.crawl_rate ?? 0)
-            sourceEntity.slug = item.slug
-            sourceEntity.url = item.url
-            sourceEntity.location = locationEntity
-            locationEntity.addToSource(sourceEntity)
-        })
-        
         location.consolidated_weather?.forEach({ item in
-            let cw = ConsolidatedWeatherEntity.init(context: managedContext)
-            initializeConsolidatedWeather(cw, item)
-            locationEntity.addToConsolidated_weather(cw)
+            if let cw = initializeConsolidatedWeather(item, managedContext){
+                locationEntity.addToConsolidated_weather(cw)
+            }
         })
         
         do{
