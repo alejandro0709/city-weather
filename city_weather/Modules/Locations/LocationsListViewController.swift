@@ -88,10 +88,10 @@ extension LocationsListViewController: LocationsDisplayerProtocol{
                 default: displayRetry = false
                 }
             }
-            
-            DispatchQueue.main.async {[weak self] in
-                self?.showErrorAlert(errorMessage: errorMessage, displayRetry: displayRetry, retryAction: retryAction)
-            }
+        }
+        
+        DispatchQueue.main.async {[weak self] in
+            self?.showErrorAlert(errorMessage: errorMessage, displayRetry: displayRetry, retryAction: retryAction)
         }
     }
     
