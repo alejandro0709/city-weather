@@ -28,7 +28,7 @@ class WeatherRepository: WeatherRepositoryProtocol{
             .do(onSuccess:{ locationItem in
                 self.cache.saveLocation(location: locationItem)
             }, onSubscribe: {
-                guard let location = self.cache.getlocation(by: woeid) else { return }
+                guard let location = self.cache.location(by: woeid) else { return }
                 cacheDataCompletion(location)
             })
     }

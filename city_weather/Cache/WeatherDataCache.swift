@@ -12,7 +12,7 @@ protocol WeatherDataCacheProtocol{
     func allLocations() -> [Location]
     func createDefaultLocations()
     func saveLocation(location: Location)
-    func getlocation(by woeid: Int) -> Location?
+    func location(by woeid: Int) -> Location?
 }
 
 class WeatherDataCache: WeatherDataCacheProtocol{
@@ -34,10 +34,54 @@ class WeatherDataCache: WeatherDataCacheProtocol{
         }
     }
     
-    func getlocation(by woeid: Int) -> Location?{
+    func location(by woeid: Int) -> Location?{
         guard let locationEntity = getlocationEntity(by: woeid) else { return nil }
         return Location.init(from: locationEntity)
     }
+    
+    func saveLocation(location: Location){
+        guard let managedContext = persistentContainer?.viewContext else { return }
+        let locationEntity = getLocationEntityToAddOrUpdate(location.woeid ?? 0, managedContext)
+        
+        locationEntity.title = location.title
+        locationEntity.woeid = Int32(location.woeid ?? 0)
+        locationEntity.timezone = location.timezone
+        locationEntity.latt_long = location.latt_long
+        locationEntity.timezone_name = location.timezone_name
+        locationEntity.location_type = location.location_type
+        locationEntity.sun_set = location.sun_set
+        locationEntity.sun_rise = location.sun_rise
+        locationEntity.time = location.time
+        
+        location.consolidated_weather?.forEach({ item in
+            if let cw = initializeConsolidatedWeather(item, managedContext){
+                locationEntity.addToConsolidated_weather(cw)
+            }
+        })
+        
+        do{
+            try locationEntity.managedObjectContext?.save()
+        }catch{
+            print(error)
+        }
+        
+        saveContext()
+    }
+    
+    func createDefaultLocations(){
+        guard let managedContext = persistentContainer?.viewContext else { return }
+        let defaultLocations = [(name: "Sofia", woeid: 839722),(name: "NY", woeid: 2459115),(name: "Tokyo", woeid: 1118370)]
+        defaultLocations.forEach { name, woeid in
+            let newLocation = LocationEntity.init(context: managedContext)
+            newLocation.title = name
+            newLocation.woeid = Int32(woeid)
+            saveContext()
+        }
+    }
+}
+
+
+extension WeatherDataCache{
     
     fileprivate func getlocationEntity(by woeid: Int) -> LocationEntity?{
         guard let managedContext = persistentContainer?.viewContext else { return nil }
@@ -100,46 +144,6 @@ class WeatherDataCache: WeatherDataCacheProtocol{
         return locationToUpdate
     }
     
-    func saveLocation(location: Location){
-        guard let managedContext = persistentContainer?.viewContext else { return }
-        let locationEntity = getLocationEntityToAddOrUpdate(location.woeid ?? 0, managedContext)
-        
-        locationEntity.title = location.title
-        locationEntity.woeid = Int32(location.woeid ?? 0)
-        locationEntity.timezone = location.timezone
-        locationEntity.latt_long = location.latt_long
-        locationEntity.timezone_name = location.timezone_name
-        locationEntity.location_type = location.location_type
-        locationEntity.sun_set = location.sun_set
-        locationEntity.sun_rise = location.sun_rise
-        locationEntity.time = location.time
-        
-        location.consolidated_weather?.forEach({ item in
-            if let cw = initializeConsolidatedWeather(item, managedContext){
-                locationEntity.addToConsolidated_weather(cw)
-            }
-        })
-        
-        do{
-            try locationEntity.managedObjectContext?.save()
-        }catch{
-            print(error)
-        }
-        
-        saveContext()
-    }
-    
-    func createDefaultLocations(){
-        guard let managedContext = persistentContainer?.viewContext else { return }
-        let defaultLocations = [(name: "Sofia", woeid: 839722),(name: "NY", woeid: 2459115),(name: "Tokyo", woeid: 1118370)]
-        defaultLocations.forEach { name, woeid in
-            let newLocation = LocationEntity.init(context: managedContext)
-            newLocation.title = name
-            newLocation.woeid = Int32(woeid)
-            saveContext()
-        }
-    }
-    
     fileprivate func saveContext () {
         guard let persistentContainer = persistentContainer else {
             return
@@ -155,5 +159,4 @@ class WeatherDataCache: WeatherDataCacheProtocol{
             }
         }
     }
-    
 }
