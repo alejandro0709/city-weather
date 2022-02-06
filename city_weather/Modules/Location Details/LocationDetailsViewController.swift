@@ -7,7 +7,6 @@
 
 import Foundation
 import Swinject
-import MBProgressHUD
 
 class LocationDetailsViewController: BaseDayForecastViewController{
     private let interactor: LocationDetailsInteractorProtocol = Container.sharedContainer.resolve(LocationDetailsInteractorProtocol.self)!

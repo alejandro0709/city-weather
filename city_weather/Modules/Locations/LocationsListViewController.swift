@@ -7,7 +7,6 @@
 
 import UIKit
 import Swinject
-import MBProgressHUD
 import CoreData
 
 protocol LocationsDisplayerProtocol{
@@ -62,12 +61,14 @@ extension LocationsListViewController: LocationsDisplayerProtocol{
     }
     
     func networkState(state: NetworkState){
-        if state == .loading{
-            MBProgressHUD.showAdded(to: view, animated: true)
-            return
+        DispatchQueue.main.async {[weak self] in
+            if state == .loading{
+                self?.mainView.tableView.refreshControl?.beginRefreshing()
+                return
+            }
+            
+            self?.mainView.tableView.refreshControl?.endRefreshing()
         }
-        
-        MBProgressHUD.hide(for: view, animated: true)
     }
 }
 
