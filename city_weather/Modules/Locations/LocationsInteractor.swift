@@ -24,7 +24,7 @@ class LocationsInteractor: LocationsInteractorProtocol{
     
     func requestCities(){
         presenter.networkState(state: .loading)
-        repository.cities().subscribe { list in
+        repository.allLocations().subscribe { list in
             self.presenter.networkState(state: .success)
             self.presenter.loadLocations(locationList: list)
         } onFailure: { error in

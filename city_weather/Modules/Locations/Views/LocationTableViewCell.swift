@@ -53,8 +53,8 @@ struct LocationTableViewCellViewModel{
     let name: String
     let woeid: Int
     
-    init(city: City){
-        name = city.name
-        woeid = city.woeid
+    init(location: Location){
+        name = location.title ?? ""
+        woeid = location.woeid ?? -1
     }
 }

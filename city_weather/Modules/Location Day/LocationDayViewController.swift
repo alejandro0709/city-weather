@@ -23,7 +23,7 @@ class LocationDayViewController: BaseDayForecastViewController{
     override func viewDidLoad() {
         super.viewDidLoad()
         navigationItem.title = "\(arg.locationName) - \(arg.applicableDate.prettyDate())"
-        interactor.requestForecastData(woeid: arg.woeid, applicableDate: arg.applicableDate)
+        interactor.requestForecastData(woeid: arg.woeid, applicableDate: arg.applicableDate, wsId: arg.wsId)
     }
 }
 
@@ -31,4 +31,5 @@ struct LocationDayVCArg{
     let locationName: String
     let applicableDate: Date
     let woeid: Int
+    let wsId: Int
 }

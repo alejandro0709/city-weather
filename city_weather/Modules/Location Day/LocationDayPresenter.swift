@@ -30,6 +30,8 @@ class LocationDayPresenter: LocationDayPresenterProtocol{
     func loadWeatherData(forecast: [ConsolidatedWeather]){
         viewcontroller?.loadForecast(itemList: forecast.map({ cw in
             ForecastDayCollectionViewCellViewModel.init(weather: cw, dayDetails: true)
+        }).sorted(by: { lhs, rhs in
+            lhs.created > rhs.created
         }))
     }
 }

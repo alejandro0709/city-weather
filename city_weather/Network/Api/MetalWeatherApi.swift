@@ -11,6 +11,7 @@ enum MetalWeatherApi{
     case location(woeid: Int)
     case dayInformation(woeid: Int, year: Int, month: Int, day: Int)
     case image(name: String)
+    case searchLocation(query: String)
 }
 
 extension MetalWeatherApi: TargetType{
@@ -26,6 +27,8 @@ extension MetalWeatherApi: TargetType{
             return "/api/location/\(woeid)/\(year)/\(month)/\(day)/"
         case .image(let name):
             return "/static/img/weather/png/64/\(name).png"
+        case .searchLocation:
+            return "/api/location/search/"
         }
     }
     
@@ -38,7 +41,10 @@ extension MetalWeatherApi: TargetType{
     }
     
     var task: HTTPTask {
-        .request
+        switch self{
+        case .searchLocation(let query): return .requestParameters(body: nil, urlQuery: ["query": query])
+        default: return .request
+        }
     }
     
     

@@ -6,11 +6,10 @@
 //
 
 import Foundation
-protocol LocationsPresenterProtocol{
+protocol LocationsPresenterProtocol: BasePresenterProtocol{
     func setupDisplayer(viewController: LocationsDisplayerProtocol)
-    func networkState(state: NetworkState)
-    func errorDetected(error: Error, retryAction: (() ->())?)
-    func loadLocations(locationList: [City])
+    func loadLocations(locationList: [Location])
+    func locationSaved()
 }
 
 class LocationsPresenter: LocationsPresenterProtocol{
@@ -25,12 +24,16 @@ class LocationsPresenter: LocationsPresenterProtocol{
     }
     
     func errorDetected(error: Error, retryAction: (() ->())?){
-        
+        viewController?.errorDetected(error: error, retryAction: retryAction)
     }
     
-    func loadLocations(locationList: [City]){
-        viewController?.loadLocations(locationList: locationList.map({ city -> LocationTableViewCellViewModel in
-            LocationTableViewCellViewModel.init(city: city)
+    func loadLocations(locationList: [Location]){
+        viewController?.loadLocations(locationList: locationList.map({ location -> LocationTableViewCellViewModel in
+            LocationTableViewCellViewModel.init(location: location)
         }))
+    }
+    
+    func locationSaved() {
+        
     }
 }

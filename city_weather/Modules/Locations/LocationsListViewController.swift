@@ -7,11 +7,12 @@
 
 import UIKit
 import Swinject
-import MBProgressHUD
+import CoreData
 
 protocol LocationsDisplayerProtocol{
     func loadLocations(locationList: [LocationTableViewCellViewModel])
     func networkState(state: NetworkState)
+    func errorDetected(error: Error, retryAction: (() -> ())?)
 }
 
 class LocationsListViewController: BaseViewController {
@@ -42,8 +43,16 @@ class LocationsListViewController: BaseViewController {
         let presenter = Container.sharedContainer.resolve(LocationsPresenterProtocol.self)!
         presenter.setupDisplayer(viewController: self)
         
+        navigationItem.rightBarButtonItem = UIBarButtonItem.init(title: "Add", style: .plain, target: self, action: #selector(navigatetToSearchUser))
+        
         setupViews()
         interactor.requestCities()
+    }
+    
+    @objc func navigatetToSearchUser(){
+        router?.navigateToSearchLocation(locationAddedClosure: {[weak self] in
+            self?.interactor.requestCities()
+        })
     }
 
 }
@@ -55,13 +64,48 @@ extension LocationsListViewController: LocationsDisplayerProtocol{
     }
     
     func networkState(state: NetworkState){
-        if state == .loading{
-            MBProgressHUD.showAdded(to: view, animated: true)
-            return
+        DispatchQueue.main.async {[weak self] in
+            if state == .loading{
+                self?.mainView.tableView.refreshControl?.beginRefreshing()
+                return
+            }
+            
+            self?.mainView.tableView.refreshControl?.endRefreshing()
         }
-        
-        MBProgressHUD.hide(for: view, animated: true)
     }
+    
+    func errorDetected(error: Error, retryAction: (() -> ())?){
+        var errorMessage = "Unable to gather requested information."
+        var displayRetry = false
+        if let tempError = error as? NetworkErrorResponse{
+            
+            errorMessage = tempError.rawValue
+            
+            if retryAction != nil {
+                switch tempError {
+                case .authenticationError: displayRetry = true
+                case .failed: displayRetry = true
+                default: displayRetry = false
+                }
+            }
+            
+            DispatchQueue.main.async {[weak self] in
+                self?.showErrorAlert(errorMessage: errorMessage, displayRetry: displayRetry, retryAction: retryAction)
+            }
+        }
+    }
+    
+    func showErrorAlert(errorMessage: String, displayRetry: Bool ,retryAction: (() -> ())?){
+        let alert = UIAlertController.init(title: "An error ocurred", message: errorMessage, preferredStyle: .alert)
+        alert.addAction(UIAlertAction.init(title: "Dismiss", style: .destructive))
+        if let retryAction = retryAction, displayRetry {
+            alert.addAction(UIAlertAction.init(title: "Try again", style: .default, handler: { _ in
+                retryAction()
+            }))
+        }
+        present(alert, animated: true)
+    }
+    
 }
 
 extension LocationsListViewController: UITableViewDelegate, UITableViewDataSource{

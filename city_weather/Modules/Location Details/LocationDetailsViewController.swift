@@ -7,7 +7,6 @@
 
 import Foundation
 import Swinject
-import MBProgressHUD
 
 class LocationDetailsViewController: BaseDayForecastViewController{
     private let interactor: LocationDetailsInteractorProtocol = Container.sharedContainer.resolve(LocationDetailsInteractorProtocol.self)!
@@ -27,7 +26,11 @@ class LocationDetailsViewController: BaseDayForecastViewController{
     }
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        router.navigateToDay(aplicableDate: foreCastModelList[indexPath.row].applicableDate, locationName: arg.cityName, woeid: arg.woeid)
+        router.navigateToDay(aplicableDate: foreCastModelList[indexPath.row].applicableDate, locationName: arg.cityName, woeid: arg.woeid, cwId: foreCastModelList[indexPath.row].id)
+    }
+    
+    override func refreshData() {
+        interactor.requestLocationData(woeid: arg.woeid)
     }
 }
 

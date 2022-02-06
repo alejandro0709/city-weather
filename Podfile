@@ -6,7 +6,6 @@ target 'city_weather' do
   use_frameworks!
 
   # Pods for city_weather
-  pod 'MBProgressHUD'
   pod 'RxSwift'
   pod 'Swinject'
 

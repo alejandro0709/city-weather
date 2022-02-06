@@ -8,7 +8,6 @@
 import Foundation
 import UIKit
 import Swinject
-import MBProgressHUD
 
 protocol LocationForecastDisplayer{
     func networkState(state: NetworkState)
@@ -42,7 +41,13 @@ class BaseDayForecastViewController: BaseViewController{
         
         mainView.collectionView.delegate = self
         mainView.collectionView.dataSource = self
+        
+        let refreshControl = UIRefreshControl()
+        self.mainView.collectionView.refreshControl = refreshControl
+        self.mainView.collectionView.refreshControl?.addTarget(self, action: #selector(refreshData), for: .valueChanged)
     }
+    
+    @objc func refreshData(){}
     
     @objc func navigateBack(){
         router.navigateBack()
@@ -80,14 +85,11 @@ extension BaseDayForecastViewController: UICollectionViewDelegateFlowLayout, UIC
 extension BaseDayForecastViewController: LocationForecastDisplayer{
     func networkState(state: NetworkState){
         DispatchQueue.main.async {[weak self] in
-            guard let self = self else { return }
-            
             if state == .loading{
-                MBProgressHUD.showAdded(to: self.view, animated: true)
+                self?.mainView.collectionView.refreshControl?.beginRefreshing()
                 return
             }
-            
-            MBProgressHUD.hide(for: self.view, animated: true)
+            self?.mainView.collectionView.refreshControl?.endRefreshing()
         }
     }
     
@@ -107,7 +109,9 @@ extension BaseDayForecastViewController: LocationForecastDisplayer{
             }
         }
         
-        showErrorAlert(errorMessage: errorMessage, displayRetry: displayRetry, retryAction: retryAction)
+        DispatchQueue.main.async {[weak self] in
+            self?.showErrorAlert(errorMessage: errorMessage, displayRetry: displayRetry, retryAction: retryAction)
+        }
     }
     
     func showErrorAlert(errorMessage: String, displayRetry: Bool ,retryAction: (() -> ())?){
