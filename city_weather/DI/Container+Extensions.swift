@@ -7,6 +7,7 @@
 
 import Foundation
 import Swinject
+import CoreData
 
 extension Container{
     static let sharedContainer: Container = {
@@ -20,8 +21,13 @@ extension Container{
             WeatherImageProvider.init(service: Service<MetalWeatherApi>())
         }.inObjectScope(.container)
         
+        container.register(WeatherDataCacheProtocol.self) { resolver in
+            WeatherDataCache.init(persistentContainer: resolver.resolve(NSPersistentContainer.self))
+        }.inObjectScope(.container)
+        
         container.register(WeatherRepositoryProtocol.self){ resolver in
-            WeatherRepository.init(provider: resolver.resolve(WeatherProviderProtocol.self)!)
+            WeatherRepository.init(provider: resolver.resolve(WeatherProviderProtocol.self)!,
+                                   cache: resolver.resolve(WeatherDataCacheProtocol.self)!)
         }.inObjectScope(.container)
         
         container.register(ImageCacheProtocol.self){ resolver in
@@ -59,6 +65,8 @@ extension Container{
             LocationDayInteractor.init(repository: resolver.resolve(WeatherRepositoryProtocol.self)!,
                                        presenter: resolver.resolve(LocationDayPresenterProtocol.self)!)
         }.inObjectScope(.weak)
+        
+       
         
         return container
     }()

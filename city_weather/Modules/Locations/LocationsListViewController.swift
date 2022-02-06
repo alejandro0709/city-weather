@@ -8,6 +8,7 @@
 import UIKit
 import Swinject
 import MBProgressHUD
+import CoreData
 
 protocol LocationsDisplayerProtocol{
     func loadLocations(locationList: [LocationTableViewCellViewModel])
@@ -20,6 +21,12 @@ class LocationsListViewController: BaseViewController {
     private let interactor: LocationsInteractorProtocol = Container.sharedContainer.resolve(LocationsInteractorProtocol.self)!
     private var mainView: LocationsVCView!
     private var cityList: [LocationTableViewCellViewModel] = []
+    private var container: NSPersistentContainer?
+    
+    convenience init(container: NSPersistentContainer?) {
+        self.init()
+        self.container = container
+    }
     
     fileprivate func setupViews() {
         mainView = LocationsVCView.init(frame: view.frame)

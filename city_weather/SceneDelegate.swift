@@ -7,6 +7,7 @@
 
 import UIKit
 import Swinject
+import CoreData
 
 class SceneDelegate: UIResponder, UIWindowSceneDelegate {
 
@@ -29,6 +30,12 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         Container.sharedContainer.register(NavigationControllerRouterProtocol.self){ _ in
             router
         }.inObjectScope(.container)
+        
+        if let appDelegate = (UIApplication.shared.delegate as? AppDelegate){
+            Container.sharedContainer.register(NSPersistentContainer.self){ _ in
+                appDelegate.persistentContainer
+            }.inObjectScope(.container)
+        }
         
         router.startApp()
     }

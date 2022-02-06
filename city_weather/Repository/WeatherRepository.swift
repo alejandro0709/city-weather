@@ -9,27 +9,38 @@ import Foundation
 import RxSwift
 
 protocol WeatherRepositoryProtocol{
-    func cities() -> Single<[City]>
+    func allLocations() -> Single<[Location]>
     func location(by woeid: Int) -> Single<Location>
     func dayWeather(by woeid: Int, year: Int, month: Int, day: Int) -> Single<[ConsolidatedWeather]>
 }
 
 class WeatherRepository: WeatherRepositoryProtocol{
     private let provider: WeatherProviderProtocol
+    private let cache: WeatherDataCacheProtocol
     
-    init(provider: WeatherProviderProtocol){
+    init(provider: WeatherProviderProtocol, cache: WeatherDataCacheProtocol){
         self.provider = provider
+        self.cache = cache
     }
     
     func location(by woeid: Int) -> Single<Location>{
         provider.location(by: woeid)
+            .do(onSuccess:{ locationItem in
+                self.cache.saveLocation(location: locationItem)
+            })
     }
     
     func dayWeather(by woeid: Int, year: Int, month: Int, day: Int) -> Single<[ConsolidatedWeather]>{
         provider.dayWeather(by: woeid, year: year, month: month, day: day)
     }
     
-    func cities() -> Single<[City]>{
-        Single.just([City.init(name: "Sofia", woeid: 839722), City.init(name: "NY", woeid: 2459115), City.init(name: "Tokyo", woeid: 1118370)])
+    func allLocations() -> Single<[Location]>{
+        let locationList = cache.allLocations()
+        if locationList.isEmpty {
+            cache.createDefaultLocations()
+            return Single.just([Location.init(title: "Sofia", woeid: 839722), Location.init(title: "NY", woeid: 2459115), Location.init(title: "Tokyo", woeid: 1118370)])
+        }
+        
+        return Single.just(locationList)
     }
 }

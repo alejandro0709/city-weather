@@ -76,5 +76,23 @@ struct ConsolidatedWeather : Codable {
         visibility = try values.decodeIfPresent(Double.self, forKey: .visibility)
         predictability = try values.decodeIfPresent(Int.self, forKey: .predictability)
     }
+    
+    init(from dbEntity: ConsolidatedWeatherEntity){
+        id = Int(dbEntity.id)
+        weather_state_name = dbEntity.weather_state_name
+        weather_state_abbr = dbEntity.weather_state_abbr
+        wind_direction_compass = dbEntity.wind_direction_compass
+        created = dbEntity.created
+        applicable_date = dbEntity.applicable_date
+        min_temp = Int(dbEntity.min_temp)
+        max_temp = Int(dbEntity.max_temp)
+        the_temp = Int(dbEntity.the_temp)
+        wind_speed = dbEntity.wind_speed
+        wind_direction = dbEntity.wind_direction
+        air_pressure = dbEntity.air_pressure
+        humidity = Int(dbEntity.humidity)
+        visibility = dbEntity.visibility
+        predictability = Int(dbEntity.predictability)
+    }
 
 }
