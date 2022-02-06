@@ -17,8 +17,8 @@ class LocationWeatherViewControllerFactory: ViewControllerFactory {
         LocationDetailsViewController.init(arg: arguments)
     }
     
-    func locationDayInformationViewController(applicableDate: Date, locationName: String, woeid: Int) -> BaseViewController {
-        LocationDayViewController.init(arg: LocationDayVCArg.init(locationName: locationName, applicableDate: applicableDate, woeid: woeid))
+    func locationDayInformationViewController(applicableDate: Date, locationName: String, woeid: Int, cwId: Int) -> BaseViewController {
+        LocationDayViewController.init(arg: LocationDayVCArg.init(locationName: locationName, applicableDate: applicableDate, woeid: woeid, wsId: cwId))
     }
     
     

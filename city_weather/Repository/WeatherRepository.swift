@@ -11,7 +11,7 @@ import RxSwift
 protocol WeatherRepositoryProtocol{
     func allLocations() -> Single<[Location]>
     func location(by woeid: Int, cacheDataCompletion: @escaping((Location) -> ())) -> Single<Location>
-    func dayWeather(by woeid: Int, year: Int, month: Int, day: Int) -> Single<[ConsolidatedWeather]>
+    func dayWeather(by woeid: Int,from id: Int, year: Int, month: Int, day: Int, cacheDataCompletion: @escaping(([ConsolidatedWeather]) -> ())) -> Single<[ConsolidatedWeather]>
 }
 
 class WeatherRepository: WeatherRepositoryProtocol{
@@ -33,8 +33,13 @@ class WeatherRepository: WeatherRepositoryProtocol{
             })
     }
     
-    func dayWeather(by woeid: Int, year: Int, month: Int, day: Int) -> Single<[ConsolidatedWeather]>{
+    func dayWeather(by woeid: Int, from id: Int, year: Int, month: Int, day: Int, cacheDataCompletion: @escaping(([ConsolidatedWeather]) -> ())) -> Single<[ConsolidatedWeather]>{
         provider.dayWeather(by: woeid, year: year, month: month, day: day)
+            .do(onSuccess:{ list in
+                self.cache.createOrUpdateConsolidatedWeather(list: list, cwId: id)
+            }, onSubscribe: {
+                cacheDataCompletion(self.cache.consolidatedWeather(with: id))
+            })
     }
     
     func allLocations() -> Single<[Location]>{

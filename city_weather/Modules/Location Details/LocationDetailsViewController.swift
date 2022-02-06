@@ -27,7 +27,7 @@ class LocationDetailsViewController: BaseDayForecastViewController{
     }
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        router.navigateToDay(aplicableDate: foreCastModelList[indexPath.row].applicableDate, locationName: arg.cityName, woeid: arg.woeid)
+        router.navigateToDay(aplicableDate: foreCastModelList[indexPath.row].applicableDate, locationName: arg.cityName, woeid: arg.woeid, cwId: foreCastModelList[indexPath.row].id)
     }
     
     override func refreshData() {

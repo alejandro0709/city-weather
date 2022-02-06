@@ -13,6 +13,8 @@ protocol WeatherDataCacheProtocol{
     func createDefaultLocations()
     func saveLocation(location: Location)
     func location(by woeid: Int) -> Location?
+    func consolidatedWeather(with cwId: Int) -> [ConsolidatedWeather]
+    func createOrUpdateConsolidatedWeather(list: [ConsolidatedWeather], cwId: Int)
 }
 
 class WeatherDataCache: WeatherDataCacheProtocol{
@@ -77,6 +79,34 @@ class WeatherDataCache: WeatherDataCacheProtocol{
             newLocation.woeid = Int32(woeid)
             saveContext()
         }
+    }
+    
+    func consolidatedWeather(with cwId: Int) -> [ConsolidatedWeather] {
+        guard let cwItem = getConsolidatedWeather(by: cwId) else { return [] }
+        
+        guard let itemList = cwItem.value(forKey: "location_day") as? NSSet,
+              let cwList = itemList.allObjects as? [ConsolidatedWeatherEntity] else {
+                  return []
+              }
+        
+        return cwList.map { entity in
+            ConsolidatedWeather.init(from: entity)
+        }
+    }
+    
+    func createOrUpdateConsolidatedWeather(list: [ConsolidatedWeather], cwId: Int){
+        guard let managedContext = persistentContainer?.viewContext else { return }
+        
+        var newItemsToAdd = [ConsolidatedWeatherEntity]()
+        list.forEach { item in
+            if let newElement = initializeConsolidatedWeather(item, managedContext){
+                newItemsToAdd.append(newElement)
+            }
+        }
+        
+        guard let owner = getConsolidatedWeather(by: cwId) else { return }
+        owner.addToLocation_day(NSSet.init(array: newItemsToAdd))
+        saveContext()
     }
 }
 

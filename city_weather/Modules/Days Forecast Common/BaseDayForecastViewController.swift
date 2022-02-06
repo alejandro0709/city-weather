@@ -109,7 +109,9 @@ extension BaseDayForecastViewController: LocationForecastDisplayer{
             }
         }
         
-        showErrorAlert(errorMessage: errorMessage, displayRetry: displayRetry, retryAction: retryAction)
+        DispatchQueue.main.async {[weak self] in
+            self?.showErrorAlert(errorMessage: errorMessage, displayRetry: displayRetry, retryAction: retryAction)
+        }
     }
     
     func showErrorAlert(errorMessage: String, displayRetry: Bool ,retryAction: (() -> ())?){
