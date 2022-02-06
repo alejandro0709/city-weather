@@ -11,10 +11,11 @@ import CoreData
 protocol WeatherDataCacheProtocol{
     func allLocations() -> [Location]
     func createDefaultLocations()
-    func saveLocation(location: Location)
+    func saveFullLocation(location: Location)
     func location(by woeid: Int) -> Location?
     func consolidatedWeather(with cwId: Int) -> [ConsolidatedWeather]
     func createOrUpdateConsolidatedWeather(list: [ConsolidatedWeather], cwId: Int)
+    func createBasicLocation(woeid: Int, title: String) -> Bool
 }
 
 class WeatherDataCache: WeatherDataCacheProtocol{
@@ -41,7 +42,7 @@ class WeatherDataCache: WeatherDataCacheProtocol{
         return Location.init(from: locationEntity)
     }
     
-    func saveLocation(location: Location){
+    func saveFullLocation(location: Location){
         guard let managedContext = persistentContainer?.viewContext else { return }
         let locationEntity = getLocationEntityToAddOrUpdate(location.woeid ?? 0, managedContext)
         
@@ -79,6 +80,15 @@ class WeatherDataCache: WeatherDataCacheProtocol{
             newLocation.woeid = Int32(woeid)
             saveContext()
         }
+    }
+    
+    func createBasicLocation(woeid: Int, title: String) -> Bool{
+        guard let managedContext = persistentContainer?.viewContext else { return false}
+        let newLocation = LocationEntity.init(context: managedContext)
+        newLocation.title = title
+        newLocation.woeid = Int32(woeid)
+        saveContext()
+        return true
     }
     
     func consolidatedWeather(with cwId: Int) -> [ConsolidatedWeather] {

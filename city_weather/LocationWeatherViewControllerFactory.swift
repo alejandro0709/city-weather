@@ -21,5 +21,8 @@ class LocationWeatherViewControllerFactory: ViewControllerFactory {
         LocationDayViewController.init(arg: LocationDayVCArg.init(locationName: locationName, applicableDate: applicableDate, woeid: woeid, wsId: cwId))
     }
     
+    func searchLocation(locationAdded: (() -> ())?) -> BaseViewController{
+        SearchLocationViewController.init(locationAddedClosure: locationAdded)
+    }
     
 }

@@ -11,6 +11,7 @@ import RxSwift
 protocol WeatherProviderProtocol{
     func location(by woeid: Int) -> Single<Location>
     func dayWeather(by woeid: Int, year: Int, month: Int, day: Int) -> Single<[ConsolidatedWeather]>
+    func searchLocationByTitle(title: String) -> Single<[Location]>
 }
 
 class WeatherProvider: WeatherProviderProtocol{
@@ -50,6 +51,27 @@ class WeatherProvider: WeatherProviderProtocol{
                               return
                           }
                     observer(.success(weatherList))
+                case .failure(error: let error):
+                    observer(.failure(error))
+                }
+            }
+            return Disposables.create()
+        }
+    }
+    
+    func searchLocationByTitle(title: String) -> Single<[Location]>{
+        Single.create { observer in
+            self.service.request(.searchLocation(query: title)) { result in
+                switch result{
+                    
+                case .success(data: let data):
+                    guard let data = data,
+                        let locationList = try? JSONDecoder().decode([Location].self, from: data) else {
+                            observer(.failure(NetworkError.failDecoding))
+                        return
+                    }
+                    
+                    observer(.success(locationList))
                 case .failure(error: let error):
                     observer(.failure(error))
                 }

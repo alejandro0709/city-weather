@@ -12,6 +12,7 @@ protocol NavigationControllerRouterProtocol{
     func startApp()
     func navigateToLocation(arg: LocationDetailsArg)
     func navigateToDay(aplicableDate: Date, locationName: String, woeid: Int, cwId: Int)
+    func navigateToSearchLocation(locationAddedClosure: (() -> ())?)
     func navigateBack()
 }
 
@@ -38,6 +39,10 @@ class NavigationControllerRouter: NavigationControllerRouterProtocol{
     
     func navigateBack(){
         navigationController.popViewController(animated: true)
+    }
+    
+    func navigateToSearchLocation(locationAddedClosure: (() -> ())?){
+        navigationController.pushViewController(factory.searchLocation(locationAdded: locationAddedClosure), animated: true)
     }
     
 }

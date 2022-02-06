@@ -16,6 +16,7 @@ enum NetworkError: String, Error{
 
 enum NetworkErrorResponse: String,Error{
     case authenticationError = "Failed authentication"
+    case accessDenied = "Access denied"
     case badRequest = "Bad request"
     case outdated = "Request is outdated"
     case failed = "An error occurred. Unable to gather requested information."
@@ -24,4 +25,8 @@ enum NetworkErrorResponse: String,Error{
 enum ImageError: Error{
     case fileNotFound
     case invalidPath
+}
+
+enum EntityError: String, Error{
+    case createEntityFail = "The object could not be saved."
 }

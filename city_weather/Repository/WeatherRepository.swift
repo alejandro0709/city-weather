@@ -12,6 +12,8 @@ protocol WeatherRepositoryProtocol{
     func allLocations() -> Single<[Location]>
     func location(by woeid: Int, cacheDataCompletion: @escaping((Location) -> ())) -> Single<Location>
     func dayWeather(by woeid: Int,from id: Int, year: Int, month: Int, day: Int, cacheDataCompletion: @escaping(([ConsolidatedWeather]) -> ())) -> Single<[ConsolidatedWeather]>
+    func searchLocationByTitle(title: String) -> Single<[Location]>
+    func addLocation(woeid: Int, title: String) -> Completable
 }
 
 class WeatherRepository: WeatherRepositoryProtocol{
@@ -26,7 +28,7 @@ class WeatherRepository: WeatherRepositoryProtocol{
     func location(by woeid: Int, cacheDataCompletion: @escaping((Location) -> ())) -> Single<Location>{
         provider.location(by: woeid)
             .do(onSuccess:{ locationItem in
-                self.cache.saveLocation(location: locationItem)
+                self.cache.saveFullLocation(location: locationItem)
             }, onSubscribe: {
                 guard let location = self.cache.location(by: woeid) else { return }
                 cacheDataCompletion(location)
@@ -50,5 +52,20 @@ class WeatherRepository: WeatherRepositoryProtocol{
         }
         
         return Single.just(locationList)
+    }
+    
+    func searchLocationByTitle(title: String) -> Single<[Location]>{
+        provider.searchLocationByTitle(title: title)
+    }
+    
+    func addLocation(woeid: Int, title: String) -> Completable{
+        Completable.create { observer in
+            if self.cache.createBasicLocation(woeid: woeid, title: title){
+                observer(.completed)
+            } else {
+                observer(.error(EntityError.createEntityFail))
+            }
+            return Disposables.create()
+        }
     }
 }
